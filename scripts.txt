@@ -1,0 +1,5 @@
+CREATE TABLE UserAccount (
+    UserId int,
+    UserName varchar(500),
+    UserPassword nvarchar(1000)
+);
