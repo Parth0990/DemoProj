@@ -1,6 +1,13 @@
-const {app, BrowserWindow} = require('electron') 
-const path = require('path') 
-const url = require('url') 
+const {app, BrowserWindow} = require('electron');
+const path = require('path');
+const url = require('url');
+
+if (process.env.NODE_ENV !== 'production') {
+    require('electron-reloader')(module);
+  }
+
+
+
 let win 
 function createWindow () { 
 win = new BrowserWindow({

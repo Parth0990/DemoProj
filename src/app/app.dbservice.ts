@@ -26,6 +26,10 @@ export class DBService {
            if (err) {
              console.log('error connecting', err);
            }
+           else 
+           {
+            alert('sucess');            
+           }
         });
     }
 
