@@ -1,6 +1,10 @@
 import {Injectable} from '@angular/core';
+<<<<<<< HEAD
+//const mysql = (<any>window).require('mysql');
+=======
 import { retry } from 'rxjs';
 const mysql = (<any>window).require('mysql');
+>>>>>>> 0b304bbfe91918fcae8c83be983a46eb7b47c03e
 
 
 export class DBServiceModel{
@@ -16,6 +20,23 @@ export class DBService {
 
     constructor() {
 
+<<<<<<< HEAD
+        // this.connection = mysql.createConnection({
+        //     host: 'localhost',
+        //     user: 'root',
+        //     password: 'password',
+        //     database: 'MyDB'
+        // });
+        // this.connection.connect((err:any) => {
+        //    if (err) {
+        //      console.log('error connecting', err);
+        //    }
+        //    else 
+        //    {
+        //     alert('sucess');            
+        //    }
+        // });
+=======
         this.connection = mysql.createConnection({
             host: 'localhost',
             user: 'root',
@@ -31,6 +52,7 @@ export class DBService {
             alert('sucess');            
            }
         });
+>>>>>>> 0b304bbfe91918fcae8c83be983a46eb7b47c03e
     }
 
     query(sql: string) {

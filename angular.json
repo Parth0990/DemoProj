@@ -51,6 +51,10 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+<<<<<<< HEAD
+              "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
+=======
+>>>>>>> 0b304bbfe91918fcae8c83be983a46eb7b47c03e
               "src/styles.css"
             ],
             "scripts": [
