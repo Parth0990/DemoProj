@@ -17,9 +17,19 @@ export class AppComponent {
   title = 'AngularApp';
   UserName:string = '';
   UserPassword:string='';
+  StateDropDown = [];
 
     constructor(private dbservice: DBService) {
+      this.getData();
+    }
 
+    getData(){
+      let data = this.dbservice.query("Select * from StateMaster");
+      console.log(data);
+      setTimeout(() => {
+        this.StateDropDown = JSON.parse(JSON.stringify(data.QueryResultData));
+        console.log(this.StateDropDown);
+      }, 500);
     }
 
     OnLogin()

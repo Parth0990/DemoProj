@@ -470,7 +470,7 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <div class="form-floating mb-3">
               <input
                 type="password"
@@ -479,6 +479,226 @@
                 placeholder="Company Name"
               />
               <label for="floatingInput">Company Name</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="password"
+                class="form-control"
+                id="CompanyAbbr"
+                placeholder="Company Abbr"
+              />
+              <label for="floatingInput">Company Abbr</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Address"
+              />
+              <label for="floatingInput">Address</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <select
+                class="form-select"
+                id="City"
+                aria-label="Floating label select example"
+              >
+                <option *ngFor="let item of StateDropDown">{{item['statename']}}</option>
+              </select>
+              <label for="floatingSelect">City</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Pin Code"
+              />
+              <label for="floatingInput">Pin Code</label>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="StateDropDown && StateDropDown.length > 0">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <select
+                class="form-select"
+                id="floatingSelect"
+                aria-label="Floating label select example"
+              >
+              <option *ngFor="let item of StateDropDown">{{item['statename']}}</option>
+              </select>
+              <label for="floatingSelect">Select State</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="District"
+              />
+              <label for="floatingInput">District</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Mobile"
+              />
+              <label for="floatingInput">Mobile</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Phone"
+              />
+              <label for="floatingInput">Phone</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="email"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Email"
+              />
+              <label for="floatingInput">Email</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Website"
+              />
+              <label for="floatingInput">Website</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="GST No."
+              />
+              <label for="floatingInput">GST No.</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="VAT No."
+              />
+              <label for="floatingInput">VAT No.</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Pan No."
+              />
+              <label for="floatingInput">Pan No.</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Tan No."
+              />
+              <label for="floatingInput">Tan No.</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="DL No.1"
+              />
+              <label for="floatingInput">DL No.1</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="DL No.2"
+              />
+              <label for="floatingInput">DL No.2</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Deals In"
+              />
+              <label for="floatingInput">Deals In</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <select
+                class="form-select"
+                id="floatingSelect"
+                aria-label="Floating label select example"
+              >
+                <option></option>
+                <option value="1">Indian</option>
+              </select>
+              <label for="floatingSelect">Date of Format</label>
             </div>
           </div>
         </div>

@@ -3,3 +3,35 @@ CREATE TABLE UserAccount (
     UserName varchar(500),
     UserPassword nvarchar(1000)
 );
+CREATE TABLE statemaster (
+    stateid INT AUTO_INCREMENT PRIMARY KEY,
+    statename VARCHAR(100) NOT NULL,
+    statecode VARCHAR(5) NOT NULL
+);
+
+
+INSERT INTO statemaster (statename, statecode)
+VALUES 
+    ('Maharashtra','27'),
+    ('Gujarat', '24'),
+    ('Maharashtra','27'),
+    ('Uttar Pradesh', '09');
+
+CREATE TABLE citymaster (
+    cityid INT AUTO_INCREMENT PRIMARY KEY,
+    cityname VARCHAR(100) NOT NULL,
+    stateid INT NOT NULL,
+    CONSTRAINT fk_state_id FOREIGN KEY (stateid) REFERENCES statemaster(stateid)
+);
+
+
+INSERT INTO citymaster (cityname, stateid)
+VALUES 
+('Mumbai',1),
+('Thane',1),
+('Pune',1),
+('Nashik',1),
+('Nagpur',1)
+;
+
+
