@@ -14,7 +14,6 @@ INSERT INTO statemaster (statename, statecode)
 VALUES 
     ('Maharashtra','27'),
     ('Gujarat', '24'),
-    ('Maharashtra','27'),
     ('Uttar Pradesh', '09');
 
 CREATE TABLE citymaster (
@@ -35,3 +34,28 @@ VALUES
 ;
 
 
+create table companymaster(
+    companyid INT AUTO_INCREMENT PRIMARY KEY,
+    companyname VARCHAR(100) NOT NULL,
+    companyabbr VARCHAR(5) NOT NULL,
+    mobileno int,
+    phoneno int,
+    address1 VARCHAR(1000) NOT NULL,
+    address2 VARCHAR(1000) NOT NULL,
+    pincode int,
+    cityid INT NOT NULL,
+    stateid INT NOT NULL,
+    district VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    website VARCHAR(50) NOT NULL,
+    gstno VARCHAR(15) NOT NULL,
+    vatno VARCHAR(15) NOT NULL,
+    panno VARCHAR(10) NOT NULL,
+    tanno VARCHAR(10) NOT NULL,
+    openingbalance int,
+    drORcr VARCHAR(5) NOT NULL,
+    username VARCHAR(10) NOT NULL,
+    password VARCHAR(20) NOT NULL,
+    CONSTRAINT fk_company_city_id FOREIGN KEY (cityid) REFERENCES citymaster(cityid),
+    CONSTRAINT fk_company_state_id FOREIGN KEY (stateid) REFERENCES statemaster(stateid))
+;
