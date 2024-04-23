@@ -1,1 +1,354 @@
-<p>login works!</p>
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="card w-50 shadow-lg">
+      <div class="card-header text-white fw-bold text-center fs-3 bg-info">
+        Login
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="form-floating mb-3">
+              <select
+                class="form-select"
+                id="floatingSelect"
+                aria-label="Floating label select example"
+              >
+                <option></option>
+                <ng-container *ngIf="this.CompanyDropDown && this.CompanyDropDown.length > 0">
+                  <option *ngFor="let item of CompanyDropDown">{{item['companyname']}}</option>
+                </ng-container>
+              </select>
+              <label for="floatingSelect">Select Company Name</label>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <button (click)="getCityStateList()" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+              <i class="bi bi-plus-circle fs-2 text-center text-success"></i></button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Username"
+              />
+              <label for="floatingInput">Username</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-floating mb-3">
+              <input
+                type="password"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Password"
+              />
+              <label for="floatingInput">Password</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center ">
+            <button class="btn btn-outline-primary w-25">Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white fw-bold">
+        <h5 class="modal-title" id="exampleModalLongTitle">Create New Company</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="CompanyName"
+                [(ngModel)]="CompanyMasModel.CompanyName"
+                name="CompanyName"
+                placeholder="Company Name"
+              />
+              <label for="floatingInput">Company Name</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="CompanyAbbr"
+                [(ngModel)]="CompanyMasModel.CompanyAbbr"
+                placeholder="Company Abbr"
+                maxlength="5"
+              />
+              <label for="floatingInput">Company Abbr</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="Mobile"
+                [(ngModel)]="CompanyMasModel.Mobile"
+                placeholder="Mobile"
+              />
+              <label for="floatingInput">Mobile</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="Phone"
+                [(ngModel)]="CompanyMasModel.Phone"
+                placeholder="Phone"
+              />
+              <label for="floatingInput">Phone</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="Address1"
+                [(ngModel)]="CompanyMasModel.Address1"
+                placeholder="Address 1"
+              />
+              <label for="floatingInput">Address 1</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="Address2"
+                [(ngModel)]="CompanyMasModel.Address2"
+                placeholder="Address 2"
+              />
+              <label for="floatingInput">Address 2</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="Pincode"
+                [(ngModel)]="CompanyMasModel.Pincode"
+                placeholder="Pin Code"
+              />
+              <label for="floatingInput">Pin Code</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <select
+                class="form-select"
+                id="City"
+                [(ngModel)]="CompanyMasModel.City"
+                aria-label="Floating label select example"
+                (change)='onOptionsSelected($event)'>
+                <option></option>
+              <option *ngFor="let item of CityStateDropDown" [value]="item['cityid']">{{item['cityname']}}</option>
+              </select>
+              <label for="floatingSelect">City</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="State"
+                [disabled]="true"
+                placeholder="State"
+                [(ngModel)]="CompanyMasModel.State"
+                [(ngModel)]="StateName"
+              />
+              <label for="floatingInput">State</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="District"
+                [(ngModel)]="CompanyMasModel.District"
+                placeholder="District"
+              />
+              <label for="floatingInput">District</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="email"
+                class="form-control"
+                id="Email"
+                [(ngModel)]="CompanyMasModel.Email"
+                placeholder="Email"
+              />
+              <label for="floatingInput">Email</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="Website"
+                [(ngModel)]="CompanyMasModel.Website"
+                placeholder="Website"
+              />
+              <label for="floatingInput">Website</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="GSTNo"
+                [(ngModel)]="CompanyMasModel.GSTNo"
+                placeholder="GST No."
+              />
+              <label for="floatingInput">GST No.</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="VATNo"
+                [(ngModel)]="CompanyMasModel.VATNo"
+                placeholder="VAT No."
+              />
+              <label for="floatingInput">VAT No.</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="PanNo"
+                [(ngModel)]="CompanyMasModel.PanNo"
+                placeholder="Pan No."
+              />
+              <label for="floatingInput">Pan No.</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="TanNo"
+                [(ngModel)]="CompanyMasModel.TanNo"
+                placeholder="Tan No."
+              />
+              <label for="floatingInput">Tan No.</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="OpeningBal"
+                [(ngModel)]="CompanyMasModel.OpeningBal"
+                placeholder="DL No.1"
+              />
+              <label for="floatingInput">Opening Balance</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <select
+                class="form-select"
+                id="DC"
+                [(ngModel)]="CompanyMasModel.DRCR"
+                aria-label="Floating label select example"
+              >
+              <option></option>
+              <option>DR</option>
+              <option>CR</option>
+              </select>
+              <label for="floatingSelect">DR/CR</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="password"
+                class="form-control"
+                id="UserName"
+                [(ngModel)]="CompanyMasModel.UserName"
+                placeholder="Username"
+              />
+              <label for="floatingInput">Username</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input
+                type="password"
+                class="form-control"
+                id="Password"
+                [(ngModel)]="CompanyMasModel.Password"
+                placeholder="Password"
+              />
+              <label for="floatingInput">Password</label>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>  
