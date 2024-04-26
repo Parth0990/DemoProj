@@ -1,5 +1,5 @@
 
-<div class="d-flex align-items-center justify-content-center vh-100">
+<div class="d-flex align-items-center justify-content-center vh-100" *ngIf='!(CM.GetItemFromLocalStorage("CompanyId")) || CM.GetItemFromLocalStorage("CompanyId") == "0"'>
     <div class="card w-50 shadow-lg">
       <div class="card-header text-white fw-bold text-center fs-3 bg-info">
         Login
@@ -32,7 +32,8 @@
               <input
                 type="text"
                 class="form-control"
-                id="floatingInput"
+                id="UserName"
+                name="UserName"
                 placeholder="Username"
               />
               <label for="floatingInput">Username</label>
@@ -45,7 +46,8 @@
               <input
                 type="password"
                 class="form-control"
-                id="floatingInput"
+                id="Password"
+                name="Password"
                 placeholder="Password"
               />
               <label for="floatingInput">Password</label>
@@ -54,7 +56,7 @@
         </div>
         <div class="row">
           <div class="col-md-12 text-center ">
-            <button class="btn btn-outline-primary w-25">Login</button>
+            <button class="btn btn-outline-primary w-25" (click)="OnLogin()">Login</button>
           </div>
         </div>
       </div>
@@ -90,6 +92,7 @@
                 type="text"
                 class="form-control"
                 id="CompanyAbbr"
+                name="CompanyAbbr"
                 [(ngModel)]="CompanyMasModel.CompanyAbbr"
                 placeholder="Company Abbr"
                 maxlength="5"
@@ -105,6 +108,7 @@
                 type="text"
                 class="form-control"
                 id="Mobile"
+                name="Mobile"
                 [(ngModel)]="CompanyMasModel.Mobile"
                 placeholder="Mobile"
               />
@@ -117,6 +121,7 @@
                 type="text"
                 class="form-control"
                 id="Phone"
+                name="Phone"
                 [(ngModel)]="CompanyMasModel.Phone"
                 placeholder="Phone"
               />
@@ -131,6 +136,7 @@
                 type="text"
                 class="form-control"
                 id="Address1"
+                name="Address1"
                 [(ngModel)]="CompanyMasModel.Address1"
                 placeholder="Address 1"
               />
@@ -145,6 +151,7 @@
                 type="text"
                 class="form-control"
                 id="Address2"
+                name="Address2"
                 [(ngModel)]="CompanyMasModel.Address2"
                 placeholder="Address 2"
               />
@@ -159,6 +166,7 @@
                 type="text"
                 class="form-control"
                 id="Pincode"
+                name="Pincode"
                 [(ngModel)]="CompanyMasModel.Pincode"
                 placeholder="Pin Code"
               />
@@ -170,6 +178,7 @@
               <select
                 class="form-select"
                 id="City"
+                name="City"
                 [(ngModel)]="CompanyMasModel.City"
                 aria-label="Floating label select example"
                 (change)='onOptionsSelected($event)'>
@@ -188,6 +197,7 @@
                 type="text"
                 class="form-control"
                 id="State"
+                name="State"
                 [disabled]="true"
                 placeholder="State"
                 [(ngModel)]="CompanyMasModel.State"
@@ -202,6 +212,7 @@
                 type="text"
                 class="form-control"
                 id="District"
+                name="District"
                 [(ngModel)]="CompanyMasModel.District"
                 placeholder="District"
               />
@@ -217,6 +228,7 @@
                 type="email"
                 class="form-control"
                 id="Email"
+                name="Email"
                 [(ngModel)]="CompanyMasModel.Email"
                 placeholder="Email"
               />
@@ -229,6 +241,7 @@
                 type="text"
                 class="form-control"
                 id="Website"
+                name="Website"
                 [(ngModel)]="CompanyMasModel.Website"
                 placeholder="Website"
               />
@@ -243,6 +256,7 @@
                 type="text"
                 class="form-control"
                 id="GSTNo"
+                name="GSTNo"
                 [(ngModel)]="CompanyMasModel.GSTNo"
                 placeholder="GST No."
               />
@@ -255,6 +269,7 @@
                 type="text"
                 class="form-control"
                 id="VATNo"
+                name="VATNo"
                 [(ngModel)]="CompanyMasModel.VATNo"
                 placeholder="VAT No."
               />
@@ -269,6 +284,7 @@
                 type="text"
                 class="form-control"
                 id="PanNo"
+                name="PanNo"
                 [(ngModel)]="CompanyMasModel.PanNo"
                 placeholder="Pan No."
               />
@@ -281,6 +297,7 @@
                 type="text"
                 class="form-control"
                 id="TanNo"
+                name="TanNo"
                 [(ngModel)]="CompanyMasModel.TanNo"
                 placeholder="Tan No."
               />
@@ -295,6 +312,7 @@
                 type="text"
                 class="form-control"
                 id="OpeningBal"
+                name="OpeningBal"
                 [(ngModel)]="CompanyMasModel.OpeningBal"
                 placeholder="DL No.1"
               />
@@ -306,6 +324,7 @@
               <select
                 class="form-select"
                 id="DC"
+                name="DC"
                 [(ngModel)]="CompanyMasModel.DRCR"
                 aria-label="Floating label select example"
               >
@@ -324,6 +343,7 @@
                 type="password"
                 class="form-control"
                 id="UserName"
+                name="UserName"
                 [(ngModel)]="CompanyMasModel.UserName"
                 placeholder="Username"
               />
@@ -336,6 +356,7 @@
                 type="password"
                 class="form-control"
                 id="Password"
+                name="Password"
                 [(ngModel)]="CompanyMasModel.Password"
                 placeholder="Password"
               />

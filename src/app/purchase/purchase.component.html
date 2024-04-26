@@ -1,3 +1,8 @@
+<style>
+  .mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell {
+    background-color: cyan;
+  }
+</style>
 <div class="m-3 card shadow-lg">
   <div class="card-header">
     <div class="row">
@@ -10,19 +15,266 @@
       </div>
       <div class="col-md-4 text-end">
         <div class="form-floating">
-            <select
-              class="form-select"
-              id="floatingSelect"
-              aria-label="Floating label select example"
-            >
-              <option></option>
-              <option value="1">abc</option>
-              <option value="2">xyz</option>
-            </select>
-            <label for="floatingSelect">Select Company Name</label>
-          </div>
+          <select class="form-select" id="Terms" name="Terms">
+            <option></option>
+            <option value="1">Credit</option>
+            <option value="2">Debit</option>
+          </select>
+          <label for="floatingSelect">Terms</label>
+        </div>
       </div>
     </div>
   </div>
-  <div class="card-body"></div>
+  <div class="card-body">
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="PartyName"
+            name="PartyName"
+            placeholder="Party Name"
+          />
+          <label for="floatingInput">Party Name</label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-floating mb-3">
+          <select class="form-select" id="Series" name="Series">
+            <option></option>
+            <option>Purchase</option>
+            <option>Sales</option>
+          </select>
+          <label for="floatingSelect">Series</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="BillNo"
+            name="BillNo"
+            placeholder="Bill No."
+          />
+          <label for="floatingInput">Bill No.</label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-floating">
+          <input type="date" class="form-control" />
+          <label for="floatingInput">Due Date</label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            min="0"
+            class="form-control"
+            id="Balance"
+            name="Balance"
+            placeholder="Balance"
+          />
+          <label for="floatingInput">Balance</label>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-2">
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            min="0"
+            class="form-control"
+            id="ItemName"
+            name="ItemName"
+            placeholder="ItemName"
+          />
+          <label for="floatingInput">Item Name</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            min="0"
+            class="form-control"
+            id="MainQty"
+            name="MainQty"
+            placeholder="MainQty"
+          />
+          <label for="floatingInput">Main Qty.</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            min="0"
+            class="form-control"
+            id="AltQty"
+            name="AltQty"
+            placeholder="AltQty"
+          />
+          <label for="floatingInput">Alt Qty.</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            min="0"
+            class="form-control"
+            id="Price"
+            name="Price"
+            placeholder="Price"
+          />
+          <label for="floatingInput">Price</label>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-floating mb-3">
+          <select class="form-select" id="per" name="per">
+            <option></option>
+            <option>Purchase</option>
+            <option>Sales</option>
+          </select>
+          <label for="floatingSelect">per</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            min="0"
+            class="form-control"
+            id="BasicAmt"
+            name="BasicAmt"
+            placeholder="BasicAmt"
+          />
+          <label for="floatingInput">Basic Amt</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            min="0"
+            class="form-control"
+            id="Discount"
+            name="Discount"
+            placeholder="Discount"
+          />
+          <label for="floatingInput">Dis. [%]</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            min="0"
+            class="form-control"
+            id="DiscountAmt"
+            name="DiscountAmt"
+            placeholder="DiscountAmt"
+          />
+          <label for="floatingInput">Dis Amt.</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            min="0"
+            class="form-control"
+            id="TaxAmt"
+            name="TaxAmt"
+            placeholder="TaxAmt"
+          />
+          <label for="floatingInput">Tax Amt.</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            min="0"
+            class="form-control"
+            id="NetValue"
+            name="NetValue"
+            placeholder="NetValue"
+          />
+          <label for="floatingInput">Net Value</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table
+          mat-table
+          [dataSource]="ItemDataSource"
+          class="table-bordered w-100"
+        >
+          <ng-container matColumnDef="ItemName">
+            <th mat-header-cell *matHeaderCellDef>Item Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.ItemName }}</td>
+          </ng-container>
+          <ng-container matColumnDef="Batch">
+            <th mat-header-cell *matHeaderCellDef>Batch</th>
+            <td mat-cell *matCellDef="let element">{{ element.Batch }}</td>
+          </ng-container>
+          <ng-container matColumnDef="MainQty">
+            <th mat-header-cell *matHeaderCellDef>MainQty</th>
+            <td mat-cell *matCellDef="let element">{{ element.MainQty }}</td>
+          </ng-container>
+          <ng-container matColumnDef="AltQty">
+            <th mat-header-cell *matHeaderCellDef>AltQty</th>
+            <td mat-cell *matCellDef="let element">{{ element.AltQty }}</td>
+          </ng-container>
+          <ng-container matColumnDef="Free">
+            <th mat-header-cell *matHeaderCellDef>Free</th>
+            <td mat-cell *matCellDef="let element">{{ element.Free }}</td>
+          </ng-container>
+          <ng-container matColumnDef="Price">
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef="let element">{{ element.Price }}</td>
+          </ng-container>
+          <ng-container matColumnDef="Per">
+            <th mat-header-cell *matHeaderCellDef>Per</th>
+            <td mat-cell *matCellDef="let element">{{ element.Per }}</td>
+          </ng-container>
+          <ng-container matColumnDef="BasicAmt">
+            <th mat-header-cell *matHeaderCellDef>BasicAmt</th>
+            <td mat-cell *matCellDef="let element">{{ element.BasicAmt }}</td>
+          </ng-container>
+          <ng-container matColumnDef="Discount">
+            <th mat-header-cell *matHeaderCellDef>Dis[%]</th>
+            <td mat-cell *matCellDef="let element">{{ element.Discount }}</td>
+          </ng-container>
+          <ng-container matColumnDef="DiscountAmt">
+            <th mat-header-cell *matHeaderCellDef>DiscountAmt</th>
+            <td mat-cell *matCellDef="let element">{{ element.DiscountAmt }}</td>
+          </ng-container>
+          <ng-container matColumnDef="Tax">
+            <th mat-header-cell *matHeaderCellDef>Tax[%]</th>
+            <td mat-cell *matCellDef="let element">{{ element.Tax }}</td>
+          </ng-container>
+          <ng-container matColumnDef="TaxAmt">
+            <th mat-header-cell *matHeaderCellDef>TaxAmt</th>
+            <td mat-cell *matCellDef="let element">{{ element.TaxAmt }}</td>
+          </ng-container>
+          <ng-container matColumnDef="NetValue">
+            <th mat-header-cell *matHeaderCellDef>NetValue</th>
+            <td mat-cell *matCellDef="let element">{{ element.NetValue }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { DBService } from '../app.dbservice';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CommonMethods } from '../common-methods.component';
 
 export class CompnayModel{
+  CompanyId: number = 0;
   CompanyName: string = "";
   CompanyAbbr: string = "";
   Mobile: string = "";
@@ -30,11 +32,12 @@ export class CompnayModel{
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, FormsModule],
+  imports: [RouterModule, CommonModule, FormsModule],
+  providers: [CommonMethods],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   UserName: string = '';
   UserPassword: string = '';
   CompanyDropDown = [];
@@ -42,7 +45,10 @@ export class LoginComponent {
   StateName: any = '';
   CompanyMasModel: CompnayModel = new CompnayModel();
 
-  constructor(private dbservice: DBService){}
+  constructor(private dbservice: DBService, public CM: CommonMethods, private router: Router){}
+
+  ngOnInit(): void {
+  }
 
   getCompanyList() {
     let data = this.dbservice.query('select * from companymaster;');
@@ -92,4 +98,9 @@ export class LoginComponent {
     }
   }
 
+  OnLogin(){
+    this.CM.SetItemInLocalStorage("CompanyId", "1");
+    this.CompanyMasModel.CompanyId = parseInt("0" + this.CM.GetItemFromLocalStorage("CompanyId"));
+    this.router.navigate(['/home']);
+  }
 }
