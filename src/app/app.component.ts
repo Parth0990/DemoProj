@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { DBService } from './app.dbservice';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
+import { CommonMethods } from './common-methods.component';
 
 export class CompnayModel{
   CompanyName: string = "";
@@ -31,10 +32,10 @@ export class CompnayModel{
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HomeComponent],
+  imports: [HomeComponent, CommonModule, RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  providers: [],
+  providers: [CommonMethods],
 })
 export class AppComponent {
   title = 'AngularApp';
@@ -45,7 +46,7 @@ export class AppComponent {
   StateName: any = '';
   CompanyMasModel: CompnayModel = new CompnayModel();
 
-  constructor(private dbservice: DBService) {}
+  constructor(private dbservice: DBService, public CM: CommonMethods, private router: Router) {}
   OnInit() {
     //this.getCompanyList();
   }
@@ -71,4 +72,6 @@ export class AppComponent {
     //   let data = this.dbservice.query(strQuery);
     //   console.log(data);
   }
+
+ 
 }

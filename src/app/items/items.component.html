@@ -1,8 +1,19 @@
-
 <div class="m-3 card shadow-lg">
-    <div class="card-header">
-        Add New Item 
+  <div class="card-header">
+    <div class="row fs-5">
+      <div class="col-md-10 mt-2">
+        <span *ngIf="IsAddSection">Add New Item</span>
+        <span *ngIf="!IsAddSection">Item Master</span>
+      </div>
+      <div class="col-md-2 text-end">
+        <button class="btn btn-outline-primary" (click)="AddBtnClick()">
+          <span *ngIf="IsAddSection">Back</span>
+          <span *ngIf="!IsAddSection">New</span>
+        </button>
+      </div>
     </div>
+  </div>
+  <div *ngIf="IsAddSection">
     <div class="card-body">
       <div class="border border-2 border-secondary">
         <div class="bg-info text-white text-center p-2">
@@ -15,7 +26,9 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="floatingInput"
+                  id="ItemName"
+                  name="ItemName"
+                  [(ngModel)]="ItemMasterData.ItemName"
                   placeholder="Item Name"
                 />
                 <label for="floatingInput">Item Name</label>
@@ -26,7 +39,9 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="floatingInput"
+                  id="ShortName"
+                  name="ShortName"
+                  [(ngModel)]="ItemMasterData.ShortName"
                   placeholder="Short Name"
                 />
                 <label for="floatingInput">Short Name</label>
@@ -37,7 +52,9 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="floatingInput"
+                  id="Thickness"
+                  name="Thickness"
+                  [(ngModel)]="ItemMasterData.Thickness"
                   placeholder="Thickness"
                 />
                 <label for="floatingInput">Thickness</label>
@@ -49,7 +66,9 @@
               <div class="form-floating">
                 <select
                   class="form-select"
-                  id="floatingSelect"
+                  id="TaxSlab"
+                  name="TaxSlab"
+                  [(ngModel)]="ItemMasterData.TaxId"
                   aria-label="Floating label select example"
                 >
                   <option></option>
@@ -63,7 +82,7 @@
               </div>
             </div>
             <div class="col-md-1">
-              <i class="bi bi-plus-circle fs-3 text-success"></i>
+              <i class="bi bi-plus-circle fs-3 text-success" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" (click)="OpenDialog(1, 'Tax Slab')"></i>
               <i class="bi bi-pencil-square mx-3 fs-3 text-primary"></i>
             </div>
             <div class="col-md-4">
@@ -71,7 +90,9 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="floatingInput"
+                  id="HsnORSacCode"
+                  name="HsnORSacCode"
+                  [(ngModel)]="ItemMasterData.HsnORSacCode"
                   placeholder="HSN/SAC Code"
                 />
                 <label for="floatingInput">HSN/SAC Code</label>
@@ -82,7 +103,9 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="floatingInput"
+                  id="DesignNo"
+                  name="DesignNo"
+                  [(ngModel)]="ItemMasterData.DesignNo"
                   placeholder="Design No."
                 />
                 <label for="floatingInput">Design No.</label>
@@ -92,10 +115,7 @@
           <div class="row">
             <div class="col-md-3">
               <div class="form-floating mb-3">
-                <select
-                  class="form-select"
-                  id="floatingSelect"
-                >
+                <select class="form-select" [(ngModel)]="ItemMasterData.ItemCompanyId" name="ItemCompanyId" id="ItemCompanyId">
                   <option></option>
                   <option value="1">05%</option>
                   <option value="2">12%</option>
@@ -112,10 +132,7 @@
             </div>
             <div class="col-md-3">
               <div class="form-floating mb-3">
-                <select
-                  class="form-select"
-                  id="floatingSelect"
-                >
+                <select class="form-select" [(ngModel)]="ItemMasterData.ItemGroupId" name="ItemGroupId" id="ItemGroupId">
                   <option></option>
                   <option value="1">05%</option>
                   <option value="2">12%</option>
@@ -132,10 +149,7 @@
             </div>
             <div class="col-md-3">
               <div class="form-floating mb-3">
-                <select
-                  class="form-select"
-                  id="floatingSelect"
-                >
+                <select class="form-select" name="ItemUnitId" [(ngModel)]="ItemMasterData.ItemUnitId" id="ItemUnitId">
                   <option></option>
                   <option value="1">05%</option>
                   <option value="2">12%</option>
@@ -165,8 +179,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Item Name"
+                    id="PurchasePrice" name="PurchasePrice"
+                    [(ngModel)]="ItemMasterData.PurchasePrice"
+                    placeholder="Purchase Price"
                   />
                   <label for="floatingInput">Purchase Price</label>
                 </div>
@@ -176,8 +191,10 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Short Name"
+                    id="SalePrice"
+                    name="SalePrice"
+                    [(ngModel)]="ItemMasterData.SalesPrice"
+                    placeholder="Sale Price"
                   />
                   <label for="floatingInput">Sale Price</label>
                 </div>
@@ -187,8 +204,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Short Name"
+                    id="MRP" name="MRP"
+                    [(ngModel)]="ItemMasterData.MRP"
+                    placeholder="MRP"
                   />
                   <label for="floatingInput">M.R.P</label>
                 </div>
@@ -200,8 +218,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Item Name"
+                    id="BasePrice"
+                    name="BasePrice" [(ngModel)]="ItemMasterData.BasePrice"
+                    placeholder="Base Price"
                   />
                   <label for="floatingInput">Basic Price</label>
                 </div>
@@ -211,8 +230,10 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Short Name"
+                    id="MinSalePrice"
+                    name="MinSalePrice"
+                    [(ngModel)]="ItemMasterData.MinSalePrice"
+                    placeholder="Min. Sale Price"
                   />
                   <label for="floatingInput">Min. Sale Price</label>
                 </div>
@@ -222,8 +243,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Short Name"
+                    id="SelfValuePrice" name="SelfValuePrice"
+                    [(ngModel)]="ItemMasterData.SelfValuePrice"
+                    placeholder="Self Value Price"
                   />
                   <label for="floatingInput">Self Val. Price</label>
                 </div>
@@ -235,8 +257,10 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Item Name"
+                    id="MinimumStock"
+                    name="MinimumStock"
+                    [(ngModel)]="ItemMasterData.MinimumStock"
+                    placeholder="Minimum Stock"
                   />
                   <label for="floatingInput">Minimum Stock</label>
                 </div>
@@ -246,8 +270,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Short Name"
+                    id="MaximumStock"
+                    name="MaximumStock" [(ngModel)]="ItemMasterData.MaximumStock"
+                    placeholder="Maximum Stock"
                   />
                   <label for="floatingInput">Maximum Stock</label>
                 </div>
@@ -257,8 +282,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Short Name"
+                    id="ReorderStock" name="ReorderStock"
+                    [(ngModel)]="ItemMasterData.ReorderStock"
+                    placeholder="Re-order Stock"
                   />
                   <label for="floatingInput">Re-Order Stock</label>
                 </div>
@@ -270,8 +296,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Item Name"
+                    id="Discount" name="Discount"
+                    [(ngModel)]="ItemMasterData.Discount"
+                    placeholder="Discount [%]"
                   />
                   <label for="floatingInput">Discount [%]</label>
                 </div>
@@ -281,8 +308,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Short Name"
+                    id="ItemLocation" name="ItemLocation"
+                    [(ngModel)]="ItemMasterData.ItemLocation"
+                    placeholder="Item Location"
                   />
                   <label for="floatingInput">Item Location</label>
                 </div>
@@ -292,8 +320,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Short Name"
+                    id="BarCode" name="BarCode"
+                    [(ngModel)]="ItemMasterData.BarCode"
+                    placeholder="BarCode"
                   />
                   <label for="floatingInput">Barcode</label>
                 </div>
@@ -305,8 +334,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Item Name"
+                    id="ItemDescription" name="ItemDescription"
+                    [(ngModel)]="ItemMasterData.ItemDescription"
+                    placeholder="Item Description"
                   />
                   <label for="floatingInput">Item Decription</label>
                 </div>
@@ -316,8 +346,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Short Name"
+                    id="StockQty" name="StockQty"
+                    [(ngModel)]="ItemMasterData.StockQty"
+                    placeholder="Stock Qty"
                   />
                   <label for="floatingInput">Op. Stock Qty</label>
                 </div>
@@ -327,8 +358,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="floatingInput"
-                    placeholder="Short Name"
+                    id="StockValue" name="StockValue"
+                    [(ngModel)]="ItemMasterData.StockValue"
+                    placeholder="Stock Value"
                   />
                   <label for="floatingInput">Op. Stock Value</label>
                 </div>
@@ -337,7 +369,7 @@
           </div>
         </div>
       </div>
-      <div class="my-2">
+      <div class="my-2" *ngIf="false">
         <div class="border border-2 border-secondary">
           <div class="bg-info text-white text-center p-2">
             <span>Tax Slab Wise Account Posting</span>
@@ -392,8 +424,36 @@
       </div>
     </div>
     <div class="card-footer">
-        <div class="text-end">
-            <button class="btn btn-primary" style="width: 10%;">Save</button>
-        </div>
+      <div class="text-end">
+        <button class="btn btn-primary" style="width: 10%" (click)="OnItemSave()">Save</button>
+      </div>
     </div>
   </div>
+  <div class="card-body" *ngIf="!IsAddSection">
+    <mat-table class="table table-responsive-lg" [dataSource]="ItemsDataSource">
+      <ng-container matColumnDef="ItemName">
+        <mat-header-cell *matHeaderCellDef>Item Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.ItemName }}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="colums"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: colums"></mat-row>
+    </mat-table>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white fw-bold">
+        <h5 class="modal-title fs-4 " id="exampleModalLongTitle">{{DialogTitle}}</h5>
+      </div>
+      <div class="modal-body">
+        Hello
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>  
