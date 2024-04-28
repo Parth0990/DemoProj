@@ -143,6 +143,9 @@
       <div class="col-md-1">
         <div class="form-floating mb-3">
           <select [(ngModel)]="PurchaseModelData.Per" class="form-select" id="per" name="per">
+      <div class="col-md-2">
+        <div class="form-floating mb-3">
+          <select class="form-select" id="per" name="per">
             <option></option>
             <option>Purchase</option>
             <option>Sales</option>
@@ -226,11 +229,9 @@
     </div>
     <div class="row mt-2">
       <div class="col-md-12">
-        <mat-table
-        *ngIf="ItemDataSource && ItemDataSource.length > 0"
-          [dataSource]="ItemDataSource"
+        <mat-table [dataSource]="ItemDataSource"
           class="table-bordered w-100"
-        >
+        *ngIf="ItemDataSource && ItemDataSource.length > 0">
           <ng-container matColumnDef="ItemName">
             <mat-header-cell *matHeaderCellDef>Item Name</mat-header-cell>
             <mat-cell *matCellDef="let element">{{ element.ItemName }}</mat-cell>

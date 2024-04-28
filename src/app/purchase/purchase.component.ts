@@ -14,11 +14,13 @@ export class PurchaseModel{
   TaxAmt: number = 0;
   NetValue: number = 0;
 }
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-purchase',
   standalone: true,
   imports: [MatTableModule, FormsModule],
+  imports: [MatTableModule],
   templateUrl: './purchase.component.html',
   styleUrl: './purchase.component.css'
 })
@@ -32,4 +34,7 @@ export class PurchaseComponent {
     this.ItemDataSource.push(JSON.parse(JSON.stringify(this.PurchaseModelData)));
     console.log(this.ItemDataSource);
   }
+  
+  ItemDataSource: [] = [];
+  displayedColumns = ["ItemName", "Batch", "MainQty", "AltQty", "Free", "Price", "Per", "BasicAmt", "Discount", "DiscountAmt", "Tax", "TaxAmt", "NetValue"];
 }
