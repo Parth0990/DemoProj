@@ -6,14 +6,14 @@
 <div class="m-3 card shadow-lg">
   <div class="card-header">
     <div class="row">
-      <div class="col-md-4 mt-3">Purchase</div>
-      <div class="text-end col-md-4">
+      <div class="col-md-8 mt-3 fs-5">Purchase Master</div>
+      <div class="text-end col-md-2">
         <div class="form-floating">
           <input type="date" class="form-control" />
           <label for="floatingInput">Date</label>
         </div>
       </div>
-      <div class="col-md-4 text-end">
+      <div class="col-md-2 text-end">
         <div class="form-floating">
           <select class="form-select" id="Terms" name="Terms">
             <option></option>
@@ -92,6 +92,7 @@
             class="form-control"
             id="ItemName"
             name="ItemName"
+            [(ngModel)]="PurchaseModelData.ItemName"
             placeholder="ItemName"
           />
           <label for="floatingInput">Item Name</label>
@@ -105,6 +106,7 @@
             class="form-control"
             id="MainQty"
             name="MainQty"
+            [(ngModel)]="PurchaseModelData.MainQty"
             placeholder="MainQty"
           />
           <label for="floatingInput">Main Qty.</label>
@@ -118,6 +120,7 @@
             class="form-control"
             id="AltQty"
             name="AltQty"
+            [(ngModel)]="PurchaseModelData.AltQty"
             placeholder="AltQty"
           />
           <label for="floatingInput">Alt Qty.</label>
@@ -131,11 +134,15 @@
             class="form-control"
             id="Price"
             name="Price"
+            [(ngModel)]="PurchaseModelData.Price"
             placeholder="Price"
           />
           <label for="floatingInput">Price</label>
         </div>
       </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <select [(ngModel)]="PurchaseModelData.Per" class="form-select" id="per" name="per">
       <div class="col-md-2">
         <div class="form-floating mb-3">
           <select class="form-select" id="per" name="per">
@@ -154,6 +161,7 @@
             class="form-control"
             id="BasicAmt"
             name="BasicAmt"
+            [(ngModel)]="PurchaseModelData.BasicAmt"
             placeholder="BasicAmt"
           />
           <label for="floatingInput">Basic Amt</label>
@@ -167,6 +175,7 @@
             class="form-control"
             id="Discount"
             name="Discount"
+            [(ngModel)]="PurchaseModelData.Discount"
             placeholder="Discount"
           />
           <label for="floatingInput">Dis. [%]</label>
@@ -180,6 +189,7 @@
             class="form-control"
             id="DiscountAmt"
             name="DiscountAmt"
+            [(ngModel)]="PurchaseModelData.DiscountAmt"
             placeholder="DiscountAmt"
           />
           <label for="floatingInput">Dis Amt.</label>
@@ -193,6 +203,7 @@
             class="form-control"
             id="TaxAmt"
             name="TaxAmt"
+            [(ngModel)]="PurchaseModelData.TaxAmt"
             placeholder="TaxAmt"
           />
           <label for="floatingInput">Tax Amt.</label>
@@ -206,74 +217,76 @@
             class="form-control"
             id="NetValue"
             name="NetValue"
+            [(ngModel)]="PurchaseModelData.NetValue"
             placeholder="NetValue"
           />
           <label for="floatingInput">Net Value</label>
         </div>
       </div>
+      <div class="col-md-1">
+        <button class="btn btn-outline-primary w-100 mt-2" (click)="OnAddBtnClick()">Add</button>
+      </div>
     </div>
-    <div class="row">
+    <div class="row mt-2">
       <div class="col-md-12">
-        <table
-          mat-table
-          [dataSource]="ItemDataSource"
+        <mat-table [dataSource]="ItemDataSource"
           class="table-bordered w-100"
-        >
+        *ngIf="ItemDataSource && ItemDataSource.length > 0">
           <ng-container matColumnDef="ItemName">
-            <th mat-header-cell *matHeaderCellDef>Item Name</th>
-            <td mat-cell *matCellDef="let element">{{ element.ItemName }}</td>
+            <mat-header-cell *matHeaderCellDef>Item Name</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.ItemName }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="Batch">
-            <th mat-header-cell *matHeaderCellDef>Batch</th>
-            <td mat-cell *matCellDef="let element">{{ element.Batch }}</td>
+            <mat-header-cell *matHeaderCellDef>Batch</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.Batch }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="MainQty">
-            <th mat-header-cell *matHeaderCellDef>MainQty</th>
-            <td mat-cell *matCellDef="let element">{{ element.MainQty }}</td>
+            <mat-header-cell *matHeaderCellDef>MainQty</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.MainQty }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="AltQty">
-            <th mat-header-cell *matHeaderCellDef>AltQty</th>
-            <td mat-cell *matCellDef="let element">{{ element.AltQty }}</td>
+            <mat-header-cell *matHeaderCellDef>AltQty</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.AltQty }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="Free">
-            <th mat-header-cell *matHeaderCellDef>Free</th>
-            <td mat-cell *matCellDef="let element">{{ element.Free }}</td>
+            <mat-header-cell *matHeaderCellDef>Free</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.Free }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="Price">
-            <th mat-header-cell *matHeaderCellDef>Price</th>
-            <td mat-cell *matCellDef="let element">{{ element.Price }}</td>
+            <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.Price }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="Per">
-            <th mat-header-cell *matHeaderCellDef>Per</th>
-            <td mat-cell *matCellDef="let element">{{ element.Per }}</td>
+            <mat-header-cell *matHeaderCellDef>Per</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.Per }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="BasicAmt">
-            <th mat-header-cell *matHeaderCellDef>BasicAmt</th>
-            <td mat-cell *matCellDef="let element">{{ element.BasicAmt }}</td>
+            <mat-header-cell *matHeaderCellDef>BasicAmt</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.BasicAmt }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="Discount">
-            <th mat-header-cell *matHeaderCellDef>Dis[%]</th>
-            <td mat-cell *matCellDef="let element">{{ element.Discount }}</td>
+            <mat-header-cell *matHeaderCellDef>Dis[%]</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.Discount }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="DiscountAmt">
-            <th mat-header-cell *matHeaderCellDef>DiscountAmt</th>
-            <td mat-cell *matCellDef="let element">{{ element.DiscountAmt }}</td>
+            <mat-header-cell *matHeaderCellDef>DiscountAmt</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.DiscountAmt }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="Tax">
-            <th mat-header-cell *matHeaderCellDef>Tax[%]</th>
-            <td mat-cell *matCellDef="let element">{{ element.Tax }}</td>
+            <mat-header-cell *matHeaderCellDef>Tax[%]</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.Tax }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="TaxAmt">
-            <th mat-header-cell *matHeaderCellDef>TaxAmt</th>
-            <td mat-cell *matCellDef="let element">{{ element.TaxAmt }}</td>
+            <mat-header-cell *matHeaderCellDef>TaxAmt</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.TaxAmt }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="NetValue">
-            <th mat-header-cell *matHeaderCellDef>NetValue</th>
-            <td mat-cell *matCellDef="let element">{{ element.NetValue }}</td>
+            <mat-header-cell *matHeaderCellDef>NetValue</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.NetValue }}</mat-cell>
           </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
       </div>
     </div>
   </div>

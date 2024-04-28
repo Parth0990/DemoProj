@@ -24,6 +24,14 @@ CREATE TABLE citymaster (
 );
 
 
+CREATE TABLE locationmaster (
+    locationid INT AUTO_INCREMENT PRIMARY KEY,
+    locationname VARCHAR(100) NOT NULL,
+    cityid INT NOT NULL,
+    CONSTRAINT fk_cityid FOREIGN KEY (cityid) REFERENCES citymaster(cityid)
+);
+
+
 INSERT INTO citymaster (cityname, stateid)
 VALUES 
 ('Mumbai',1),
@@ -59,3 +67,70 @@ create table companymaster(
     CONSTRAINT fk_company_city_id FOREIGN KEY (cityid) REFERENCES citymaster(cityid),
     CONSTRAINT fk_company_state_id FOREIGN KEY (stateid) REFERENCES statemaster(stateid))
 ;
+
+
+create table itemmaster(
+    itemid INT AUTO_INCREMENT PRIMARY KEY,
+    itemname VARCHAR(100) NOT NULL,
+    shortname VARCHAR(5) NOT NULL,
+    thickness int,
+    taxid int,
+    hsnORsacCode VARCHAR(100) NOT NULL,
+    designno int,
+    itemcompanyid int,
+    itemgroupid int,
+    itemunitid int,
+    purchaseprice int,
+    saleprice int,
+    mrp int,
+    baseprice int,
+    minsaleprice int,
+    selfvalueprice int,
+    minimumstock int,
+    maximumstock int,
+    reorderstock int,
+    discount int,
+    itemlocation VARCHAR(500) NOT NULL,
+    barcode VARCHAR(50) NOT NULL,
+    itemdescription VARCHAR(100) NOT NULL,
+    stockqty int,
+    stockvalue int,
+    purchaseheadid int,
+    saleheadid int,
+    CONSTRAINT fk_taxslabmaster_taxid FOREIGN KEY (taxid) REFERENCES taxslabmaster(taxid),
+    CONSTRAINT fk_taxslabmaster_itemcompanyid FOREIGN KEY (itemcompanyid) REFERENCES itemcompanymaster(itemcompanyid),
+    CONSTRAINT fk_taxslabmaster_itemgroupid FOREIGN KEY (itemgroupid) REFERENCES itemgroupmaster(itemgroupid),
+    CONSTRAINT fk_taxslabmaster_itemunitid FOREIGN KEY (itemunitid) REFERENCES itemunitmaster(itemunitid),
+    CONSTRAINT fk_taxslabmaster_purchaseheadid FOREIGN KEY (purchaseheadid) REFERENCES purchaseheadmaster(purchaseheadid),
+    CONSTRAINT fk_taxslabmaster_saleheadid FOREIGN KEY (saleheadid) REFERENCES saleheadmaster(saleheadid)
+    );
+
+    create table taxslabmaster(
+    taxid INT AUTO_INCREMENT PRIMARY KEY,
+    taxslab VARCHAR(100) NOT NULL
+);
+
+create table itemcompanymaster(
+    itemcompanyid INT AUTO_INCREMENT PRIMARY KEY,
+    itemcompanyname VARCHAR(100) NOT NULL
+);
+
+create table itemgroupmaster(
+    itemgroupid INT AUTO_INCREMENT PRIMARY KEY,
+    itemgroupname VARCHAR(100) NOT NULL
+);
+
+create table itemunitmaster(
+    itemunitid INT AUTO_INCREMENT PRIMARY KEY,
+    itemunitname VARCHAR(100) NOT NULL
+);
+
+create table purchaseheadmaster(
+    purchaseheadid INT AUTO_INCREMENT PRIMARY KEY,
+    purchaseheadname VARCHAR(100) NOT NULL
+);
+
+create table saleheadmaster(
+    saleheadid INT AUTO_INCREMENT PRIMARY KEY,
+    saleheadname VARCHAR(100) NOT NULL
+);

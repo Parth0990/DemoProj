@@ -25,5 +25,4 @@ export class HomeComponent implements OnInit {
     this.CM.RemoveItemFromLocalStorage("CompanyId");
     this.router.navigate(['/login']);
   }
-  
 }
