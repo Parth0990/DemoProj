@@ -67,6 +67,7 @@ export class DBService {
         } else {
           console.log('some error occurred!');
         }
+        console.log(_dataResult);
         return _dataResult;
       }
     );

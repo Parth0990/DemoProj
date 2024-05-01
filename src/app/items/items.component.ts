@@ -86,6 +86,6 @@ export class ItemsComponent {
        , this.ItemMasterData.ItemDescription, this.ItemMasterData.StockQty, this.ItemMasterData.StockValue];
 
        let data = this.dbservice.InsertIntoTables(Qry, parameters);
-       console.log("Data:" + data);
+       console.log("Data:" + data.QueryResultData);
   }
 }

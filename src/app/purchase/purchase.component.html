@@ -1,7 +1,5 @@
 <style>
-  .mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell {
-    background-color: cyan;
-  }
+
 </style>
 <div class="m-3 card shadow-lg">
   <div class="card-header">
@@ -9,16 +7,25 @@
       <div class="col-md-8 mt-3 fs-5">Purchase Master</div>
       <div class="text-end col-md-2">
         <div class="form-floating">
-          <input type="date" class="form-control" />
+          <input
+            type="date"
+            [(ngModel)]="PurchaseModelData.EffectiveDate"
+            class="form-control"
+          />
           <label for="floatingInput">Date</label>
         </div>
       </div>
       <div class="col-md-2 text-end">
         <div class="form-floating">
-          <select class="form-select" id="Terms" name="Terms">
+          <select
+            class="form-select"
+            [(ngModel)]="PurchaseModelData.Terms"
+            id="Terms"
+            name="Terms"
+          >
             <option></option>
             <option value="1">Credit</option>
-            <option value="2">Debit</option>
+            <option value="2">Cash</option>
           </select>
           <label for="floatingSelect">Terms</label>
         </div>
@@ -28,20 +35,40 @@
   <div class="card-body">
     <div class="row mt-2">
       <div class="col-md-6">
-        <div class="form-floating mb-3">
+        <!-- <div class="form-floating mb-3">
           <input
             type="text"
             class="form-control"
             id="PartyName"
             name="PartyName"
+            [(ngModel)]="PurchaseModelData.VenderId"
             placeholder="Party Name"
           />
           <label for="floatingInput">Party Name</label>
+        </div> -->
+        <div class="form-floating mb-3">
+          <select
+            class="form-select"
+            [(ngModel)]="PurchaseModelData.VenderId"
+            id="PartyName"
+            name="PartyName"
+          >
+          <option value="0"></option>
+            <option *ngFor="let item of VendorList" [value]="item['Id']">
+              {{ item["Name"] }}
+            </option>
+          </select>
+          <label for="PartyName">Party Name</label>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-floating mb-3">
-          <select class="form-select" id="Series" name="Series">
+          <select
+            class="form-select"
+            [(ngModel)]="PurchaseModelData.Series"
+            id="Series"
+            name="Series"
+          >
             <option></option>
             <option>Purchase</option>
             <option>Sales</option>
@@ -51,21 +78,26 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-3" *ngIf="false">
         <div class="form-floating mb-3">
           <input
             type="text"
             class="form-control"
             id="BillNo"
             name="BillNo"
+            [(ngModel)]="PurchaseModelData.BillNo"
             placeholder="Bill No."
           />
           <label for="floatingInput">Bill No.</label>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3" *ngIf="false">
         <div class="form-floating">
-          <input type="date" class="form-control" />
+          <input
+            type="date"
+            [(ngModel)]="PurchaseModelData.DueDate"
+            class="form-control"
+          />
           <label for="floatingInput">Due Date</label>
         </div>
       </div>
@@ -77,6 +109,7 @@
             class="form-control"
             id="Balance"
             name="Balance"
+            [(ngModel)]="PurchaseModelData.Balance"
             placeholder="Balance"
           />
           <label for="floatingInput">Balance</label>
@@ -86,16 +119,19 @@
     <div class="row mt-2">
       <div class="col-md-2">
         <div class="form-floating mb-3">
-          <input
-            type="text"
-            min="0"
-            class="form-control"
+          <select
+            class="form-select"
+            [(ngModel)]="PurchaseModelData.ItemId"
+            (ngModelChange)="OnItemChange()"
             id="ItemName"
             name="ItemName"
-            [(ngModel)]="PurchaseModelData.ItemName"
-            placeholder="ItemName"
-          />
-          <label for="floatingInput">Item Name</label>
+          >
+          <option value="0"></option>
+            <option *ngFor="let item of ItemList" [value]="item['Id']">
+              {{ item["Name"] }}
+            </option>
+          </select>
+          <label for="PartyName">Item Name</label>
         </div>
       </div>
       <div class="col-md-1">
@@ -142,7 +178,12 @@
       </div>
       <div class="col-md-1">
         <div class="form-floating mb-3">
-          <select [(ngModel)]="PurchaseModelData.Per" class="form-select" id="per" name="per">
+          <select
+            [(ngModel)]="PurchaseModelData.Per"
+            class="form-select"
+            id="per"
+            name="per"
+          >
             <option></option>
             <option>Purchase</option>
             <option>Sales</option>
@@ -221,19 +262,26 @@
         </div>
       </div>
       <div class="col-md-1">
-        <button class="btn btn-outline-primary w-100 mt-2" (click)="OnAddBtnClick()">Add</button>
+        <button
+          class="btn btn-outline-primary w-100 mt-2"
+          (click)="OnAddBtnClick()"
+        >
+          Add
+        </button>
       </div>
     </div>
     <div class="row mt-2">
       <div class="col-md-12">
         <mat-table
-        *ngIf="ItemDataSource && ItemDataSource.length > 0"
+          *ngIf="ItemDataSource && ItemDataSource.length > 0"
           [dataSource]="ItemDataSource"
           class="table-bordered w-100"
         >
           <ng-container matColumnDef="ItemName">
             <mat-header-cell *matHeaderCellDef>Item Name</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.ItemName }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{
+              element.ItemName
+            }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="Batch">
             <mat-header-cell *matHeaderCellDef>Batch</mat-header-cell>
@@ -261,15 +309,21 @@
           </ng-container>
           <ng-container matColumnDef="BasicAmt">
             <mat-header-cell *matHeaderCellDef>BasicAmt</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.BasicAmt }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{
+              element.BasicAmt
+            }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="Discount">
             <mat-header-cell *matHeaderCellDef>Dis[%]</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.Discount }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{
+              element.Discount
+            }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="DiscountAmt">
             <mat-header-cell *matHeaderCellDef>DiscountAmt</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.DiscountAmt }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{
+              element.DiscountAmt
+            }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="Tax">
             <mat-header-cell *matHeaderCellDef>Tax[%]</mat-header-cell>
@@ -281,12 +335,19 @@
           </ng-container>
           <ng-container matColumnDef="NetValue">
             <mat-header-cell *matHeaderCellDef>NetValue</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.NetValue }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{
+              element.NetValue
+            }}</mat-cell>
           </ng-container>
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
         </mat-table>
       </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="text-end">
+      <button class="btn btn-outline-primary" (click)="AddNewRecord()">Save Changes</button>
     </div>
   </div>
 </div>
