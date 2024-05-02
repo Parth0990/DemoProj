@@ -21,20 +21,18 @@
         </div>
         <div class="mx-3 my-2">
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="ItemName"
-                  name="ItemName"
-                  [(ngModel)]="ItemMasterData.ItemName"
-                  placeholder="Item Name"
-                />
-                <label for="floatingInput">Item Name</label>
+                <select class="form-select" [(ngModel)]="ItemMasterData.ItemName" name="ItemName" id="ItemName">
+                  <option></option>
+                  <option value="Bakelite">Bakelite</option>
+                  <option value="ACP">ACP</option>
+                  <option value="APP">APP</option>
+                </select>
+                <label for="floatingSelect">Item Name</label>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="form-floating mb-3">
                 <input
                   type="text"
@@ -47,7 +45,7 @@
                 <label for="floatingInput">Short Name</label>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="form-floating mb-3">
                 <input
                   type="text"
@@ -60,9 +58,22 @@
                 <label for="floatingInput">Thickness</label>
               </div>
             </div>
+            <div class="col-md-3">
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="DesignNo"
+                  name="DesignNo"
+                  [(ngModel)]="ItemMasterData.DesignNo"
+                  placeholder="Design No."
+                />
+                <label for="floatingInput">Design No.</label>
+              </div>
+            </div>
           </div>
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
               <div class="form-floating">
                 <select
                   class="form-select"
@@ -85,35 +96,7 @@
               <i class="bi bi-plus-circle fs-3 text-success" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" (click)="OpenDialog(1, 'Tax Slab')"></i>
               <i class="bi bi-pencil-square mx-3 fs-3 text-primary"></i>
             </div>
-            <div class="col-md-4">
-              <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="HsnORSacCode"
-                  name="HsnORSacCode"
-                  [(ngModel)]="ItemMasterData.HsnORSacCode"
-                  placeholder="HSN/SAC Code"
-                />
-                <label for="floatingInput">HSN/SAC Code</label>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="DesignNo"
-                  name="DesignNo"
-                  [(ngModel)]="ItemMasterData.DesignNo"
-                  placeholder="Design No."
-                />
-                <label for="floatingInput">Design No.</label>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
               <div class="form-floating mb-3">
                 <select class="form-select" [(ngModel)]="ItemMasterData.ItemCompanyId" name="ItemCompanyId" id="ItemCompanyId">
                   <option></option>
@@ -147,7 +130,7 @@
               <i class="bi bi-plus-circle fs-3 text-success"></i>
               <i class="bi bi-pencil-square mx-3 fs-3 text-primary"></i>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
               <div class="form-floating mb-3">
                 <select class="form-select" name="ItemUnitId" [(ngModel)]="ItemMasterData.ItemUnitId" id="ItemUnitId">
                   <option></option>
