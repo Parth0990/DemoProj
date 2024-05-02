@@ -86,6 +86,19 @@ export class ItemsComponent {
        , this.ItemMasterData.ItemDescription, this.ItemMasterData.StockQty, this.ItemMasterData.StockValue];
 
        let data = this.dbservice.InsertIntoTables(Qry, parameters);
+       setTimeout(() => {
+        if(data.IsErrorExists){
+          alert(data.ErrorMessgae);
+        }
+        else{
+          alert("Record Added!!!");
+          this.ClearData();
+        }
+       }, 500);
        console.log("Data:" + data.QueryResultData);
+  }
+
+  ClearData(){
+    this.ItemMasterData = new ItemMasterModel();
   }
 }
