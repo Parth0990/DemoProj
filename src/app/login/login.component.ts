@@ -101,6 +101,6 @@ export class LoginComponent implements OnInit {
   OnLogin(){
     this.CM.SetItemInLocalStorage("CompanyId", "1");
     this.CompanyMasModel.CompanyId = parseInt("0" + this.CM.GetItemFromLocalStorage("CompanyId"));
-    this.router.navigate(['/home']);
+    this.router.navigate(['']);
   }
 }

@@ -2,9 +2,9 @@ const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const url = require('url');
 
-if (process.env.NODE_ENV !== 'production') {
-    require('electron-reloader')(module);
-  }
+// if (process.env.NODE_ENV !== 'production') {
+//     require('electron-reloader')(module);
+//   }
 
 
 

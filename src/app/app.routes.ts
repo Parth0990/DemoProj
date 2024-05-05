@@ -8,8 +8,9 @@ import { ProductComponent } from './product/product.component';
 export const routes: Routes = [
     {
     path: '',
-    component: LoginComponent,
-    pathMatch: 'full'
+    component: AppComponent,
+    pathMatch: 'full',
+    redirectTo: 'login'
 }, 
 {
     path: 'login',
