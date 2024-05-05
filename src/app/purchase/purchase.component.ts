@@ -6,7 +6,7 @@ import { DBService, DBServiceModel } from '../app.dbservice';
 
 export class PurchaseModel {
   PurchaseId: number = 0;
-  ItemId: number = 0;
+  GroupName: string = '';
   ItemName: string = '';
   Batch: string = '';
   EffectiveDate: Date = new Date();
@@ -19,7 +19,7 @@ export class PurchaseModel {
   DueDate: Date = new Date();
   MainQty: number = 0;
   AltQty: number = 0;
-  Price: string = '';
+  Price: number = 0;
   Per: string = '';
   BasicAmt: number = 0;
   Discount: number = 0;
@@ -44,10 +44,12 @@ export class PurchaseComponent implements OnInit {
   Qry: string = '';
   parameters: any;
   VendorList: DropDownProp[] = [];
-  ItemList: DropDownProp[] = [];
+  GroupNameList: DropDownProp[] = [];
   PurchaseModelData: PurchaseModel = new PurchaseModel();
   PurchaseArrModel: PurchaseModel[] = [];
   ItemDataSource: PurchaseModel[] = [];
+  PurchaseDataSource: [] = [];
+  IsAddSection: boolean = false;
   displayedColumns = [
     'ItemName',
     'DesignNo',
@@ -64,19 +66,66 @@ export class PurchaseComponent implements OnInit {
     'NetValue',
   ];
 
+  colums = [
+    'VendorName',
+    'ItemName',
+    'PurchaseDate',
+    'MainQty',
+    'AltQty',
+    'Per',
+    'BasicAmt',
+    'Discount',
+    'DiscountAmt',
+    'TaxAmt',
+    'NetValue',
+  ];
+
   constructor(private DBService: DBService) {}
 
   ngOnInit() {
+    this.GetPurchasedData();
     this.FillVendorList();
-    this.FillItemList();
+    this.FillGroupNameList();
+  }
+
+  AddBtnClick() {
+    this.IsAddSection = !this.IsAddSection;
+    if (this.IsAddSection) {
+      this.ClearData();
+    }
+  }
+
+  GetPurchasedData() {
+    this.Qry = `Select * FROM purchaseSummary PS
+                INNER JOIN VendorMaster VM ON VM.VendorId = PS.VendorId
+                INNER JOIN purchasedetail PD ON PD.purchaseId = PD.purchaseId
+                INNER JOIN ItemMaster IM ON IM.ItemId = PD.ItemId;`;
+    let data = this.DBService.query(this.Qry);
+    setTimeout(() => {
+      if (data.IsErrorExists) {
+        alert(data.ErrorMessgae);
+      } else {
+        if (data.QueryResultData && data.QueryResultData.length > 0) {
+          this.PurchaseDataSource = JSON.parse(
+            JSON.stringify(data.QueryResultData)
+          );
+          console.log(this.PurchaseDataSource);
+        }
+      }
+      console.log(data);
+    }, 500);
+  }
+
+  PrintScreen() {
+    window.print();
   }
 
   OnAddBtnClick() {
     this.ItemDataSource = [];
-    let ItemName: any = this.ItemList.find(
-      (x) => x['Id'] == this.PurchaseModelData.ItemId
-    )?.Name.toString();
-    this.PurchaseModelData.ItemName = ItemName;
+    // let ItemName: any = this.ItemList.find(
+    //   (x) => x['Id'] == this.PurchaseModelData.
+    // )?.Name.toString();
+    // this.PurchaseModelData.ItemName = ItemName;
     this.PurchaseArrModel.push(
       JSON.parse(JSON.stringify(this.PurchaseModelData))
     );
@@ -104,11 +153,28 @@ export class PurchaseComponent implements OnInit {
     }, 500);
   }
 
+  OnVendorChange() {
+    this.Qry =
+      'select * from VendorMaster WHERE VendorId = ' +
+      this.PurchaseModelData.VenderId;
+    let data = this.DBService.query(this.Qry);
+    setTimeout(() => {
+      if (data.IsErrorExists) {
+        alert(data.ErrorMessgae);
+      } else {
+        if (data.IsQueryExecuted) {
+          let newDT = JSON.parse(JSON.stringify(data.QueryResultData));
+          this.PurchaseModelData.Balance = newDT[0].openingbal;
+        }
+      }
+    }, 500);
+  }
+
   OnItemChange() {
-    if (this.PurchaseModelData.ItemId > 0) {
+    if (this.PurchaseModelData.GroupName) {
       this.Qry =
-        'SELECT * FROM itemmaster WHERE ItemId = ' +
-        this.PurchaseModelData.ItemId;
+        'SELECT * FROM itemmaster WHERE GroupName = ' +
+        this.PurchaseModelData.GroupName;
       let data = this.DBService.query(this.Qry);
       setTimeout(() => {
         if (data.IsErrorExists) {
@@ -116,32 +182,41 @@ export class PurchaseComponent implements OnInit {
         } else {
           if (data.QueryResultData && data.QueryResultData.length > 0) {
             let newData = JSON.parse(JSON.stringify(data.QueryResultData));
-            this.PurchaseModelData.MainQty = newData[0].stockqty;
-            this.PurchaseModelData.Balance = newData[0].stockvalue;
-            this.PurchaseModelData.DesignNo = newData[0].designno;
-            //this.PurchaseModelData.AltQty
-            this.PurchaseModelData.Price = newData[0].purchaseprice;
-            this.PurchaseModelData.BasicAmt =
-              newData[0].UnitPerPrice == 'SQ ft'
-                ? newData[0].purchaseprice * newData[0].altqty
-                : newData[0].purchaseprice * this.PurchaseModelData.MainQty;
-            this.PurchaseModelData.Discount = newData[0].discount;
+            this.PurchaseModelData.MainQty = newData[0].StockQty;
+            this.PurchaseModelData.DesignNo = newData[0].DesignNo;
+            this.PurchaseModelData.AltQty = newData[0].ItemUnitPerRate;
+            this.PurchaseModelData.Per = newData[0].ItemUnit;
+            this.PurchaseModelData.Discount = newData[0].Discount;
+            this.PurchaseModelData.TaxAmt = newData[0].TaxSlab;
           }
         }
       }, 500);
     }
   }
 
-  FillItemList() {
+  OnInputChange() {
+    this.PurchaseModelData.BasicAmt =
+      this.PurchaseModelData.Per == 'SQ FT'
+        ? this.PurchaseModelData.Price * this.PurchaseModelData.AltQty
+        : this.PurchaseModelData.Price * this.PurchaseModelData.MainQty;
+  }
+
+  ClearData() {
+    this.ItemDataSource = [];
+    this.PurchaseArrModel = [];
+    this.PurchaseModelData = new PurchaseModel();
+  }
+
+  FillGroupNameList() {
     this.VendorList = [];
-    this.Qry = 'SELECT ItemId As Id, ItemName As Name FROM itemmaster;';
+    this.Qry = 'SELECT GroupName As Id, GroupName As Name FROM itemmaster;';
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
         alert(data.ErrorMessgae);
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
-          this.ItemList = JSON.parse(JSON.stringify(data.QueryResultData));
+          this.GroupNameList = JSON.parse(JSON.stringify(data.QueryResultData));
         }
       }
       console.log(this.VendorList);
@@ -177,10 +252,12 @@ export class PurchaseComponent implements OnInit {
       data = this.DBService.InsertIntoTables(this.Qry, this.parameters);
 
       setTimeout(() => {
-            this.PurchaseModelData.PurchaseId = JSON.parse(JSON.stringify(data.QueryResultData))['insertId'];
-            if (this.InsertIntoDetail()) {
-              alert('Record Added!!!');
-            }
+        this.PurchaseModelData.PurchaseId = JSON.parse(
+          JSON.stringify(data.QueryResultData)
+        )['insertId'];
+        this.InsertIntoDetail();
+        this.GetPurchasedData();
+        this.IsAddSection = !this.IsAddSection;
       }, 500);
     }
   }
@@ -192,7 +269,7 @@ export class PurchaseComponent implements OnInit {
         this.Qry = `INSERT INTO PurchaseDetail(purchaseId, itemId, Batch, MainQty, altqty, free, per, basicqty, discount, discountamt, taxamt, netvalue) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
         this.parameters = [
           this.PurchaseModelData.PurchaseId,
-          this.PurchaseArrModel[i].ItemId,
+          this.PurchaseArrModel[i].GroupName,
           this.PurchaseArrModel[i].Batch,
           this.PurchaseArrModel[i].MainQty,
           this.PurchaseArrModel[i].AltQty,
@@ -210,9 +287,7 @@ export class PurchaseComponent implements OnInit {
           break;
         }
       }
-      setTimeout(() => {
-        
-      }, 500);
+      setTimeout(() => {}, 500);
       return data.IsQueryExecuted;
     } else {
       return false;

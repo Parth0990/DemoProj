@@ -73,5 +73,8 @@ export class AppComponent {
     //   console.log(data);
   }
 
- 
+  OnLogout(){
+    this.CM.RemoveItemFromLocalStorage("CompanyId");
+    this.router.navigate(['']);
+  }
 }
