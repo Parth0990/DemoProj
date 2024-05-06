@@ -48,7 +48,8 @@ export class PurchaseComponent implements OnInit {
   PurchaseModelData: PurchaseModel = new PurchaseModel();
   PurchaseArrModel: PurchaseModel[] = [];
   ItemDataSource: PurchaseModel[] = [];
-
+  PurchaseDataSource: [] = [];
+  IsAddSection: boolean = false;
   displayedColumns = [
     'ItemName',
     'DesignNo',
@@ -83,9 +84,6 @@ export class PurchaseComponent implements OnInit {
 
   ngOnInit() {
     this.GetPurchasedData();
-  constructor(private DBService: DBService) {}
-
-  ngOnInit() {
     this.FillVendorList();
     this.FillGroupNameList();
   }
@@ -124,10 +122,10 @@ export class PurchaseComponent implements OnInit {
 
   OnAddBtnClick() {
     this.ItemDataSource = [];
-    let ItemName: any = this.ItemList.find(
-      (x) => x['Id'] == this.PurchaseModelData.ItemId
-    )?.Name.toString();
-    this.PurchaseModelData.ItemName = ItemName;
+    // let ItemName: any = this.ItemList.find(
+    //   (x) => x['Id'] == this.PurchaseModelData.
+    // )?.Name.toString();
+    // this.PurchaseModelData.ItemName = ItemName;
     this.PurchaseArrModel.push(
       JSON.parse(JSON.stringify(this.PurchaseModelData))
     );
@@ -212,9 +210,6 @@ export class PurchaseComponent implements OnInit {
   FillGroupNameList() {
     this.VendorList = [];
     this.Qry = 'SELECT GroupName As Id, GroupName As Name FROM itemmaster;';
-  FillItemList() {
-    this.VendorList = [];
-    this.Qry = 'SELECT ItemId As Id, ItemName As Name FROM itemmaster;';
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
@@ -293,9 +288,6 @@ export class PurchaseComponent implements OnInit {
         }
       }
       setTimeout(() => {}, 500);
-      setTimeout(() => {
-        
-      }, 500);
       return data.IsQueryExecuted;
     } else {
       return false;
