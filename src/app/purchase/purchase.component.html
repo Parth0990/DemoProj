@@ -115,21 +115,6 @@
           <label for="floatingInput">Design No.</label>
         </div>
       </div>
-    </div>
-    <div class="row mt-2">
-      <div class="col-md-1">
-        <div class="form-floating mb-3">
-          <input
-            type="text" readonly
-            class="form-control"
-            id="DesignNo"
-            name="DesignNo"
-            [(ngModel)]="PurchaseModelData.DesignNo"
-            placeholder="DesignNo"
-          />
-          <label for="floatingInput">Design No.</label>
-        </div>
-      </div>
       <div class="col-md-1">
         <div class="form-floating mb-3">
           <input
@@ -270,7 +255,8 @@
         <mat-table
           *ngIf="ItemDataSource && ItemDataSource.length > 0"
           [dataSource]="ItemDataSource"
-          class="table-bordered w-100">
+          class="table-bordered w-100"
+        >
           <ng-container matColumnDef="ItemName">
             <mat-header-cell *matHeaderCellDef>Item Name</mat-header-cell>
             <mat-cell *matCellDef="let element">{{
@@ -282,7 +268,6 @@
             <mat-cell *matCellDef="let element">{{
               element.DesignNo
             }}</mat-cell>
-            <mat-cell *matCellDef="let element">{{ element.DesignNo }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="MainQty">
             <mat-header-cell *matHeaderCellDef>MainQty</mat-header-cell>

@@ -75,6 +75,6 @@ export class AppComponent {
 
   OnLogout(){
     this.CM.RemoveItemFromLocalStorage("CompanyId");
-    this.router.navigate(['']);
+    this.router.navigate(['login']);
   }
 }

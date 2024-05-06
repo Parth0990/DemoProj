@@ -20,4 +20,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.CompanyId = parseInt(this.CM.GetItemFromLocalStorage("CompanyId"));
   }
+
+  OnLogout(){
+    this.CM.RemoveItemFromLocalStorage("CompanyId");
+    this.router.navigate(['login']);
+  }
 }
