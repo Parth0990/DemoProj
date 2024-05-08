@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { DBService } from '../app.dbservice';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 export class ItemMasterModel{
   ItemName: string = "";
@@ -74,8 +75,6 @@ export class ItemsComponent {
                 MaximumStock, ReorderStock, Discount, ItemLocation, BarCode, ItemDescription, StockQty, StockValue)
                 Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
 
-    alert("Saved!!");
-
     parameters = [this.ItemMasterData.ItemName, this.ItemMasterData.ShortName, this.ItemMasterData.Thickness
       , this.ItemMasterData.TaxId, this.ItemMasterData.HsnORSacCode, this.ItemMasterData.DesignNo
       , this.ItemMasterData.ItemCompanyId, this.ItemMasterData.ItemGroupId, this.ItemMasterData.ItemUnitId
@@ -89,9 +88,10 @@ export class ItemsComponent {
        setTimeout(() => {
         if(data.IsErrorExists){
           alert(data.ErrorMessgae);
+          Swal.fire("Error: " + data.ErrorMessgae, "", "error");
         }
         else{
-          alert("Record Added!!!");
+          Swal.fire("Record Added!!!", "", 'success');
           this.ClearData();
         }
        }, 500);

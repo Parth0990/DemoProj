@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DBService, DBServiceModel } from '../app.dbservice';
+import Swal from 'sweetalert2';
 
 export class PurchaseModel {
   PurchaseId: number = 0;
@@ -236,9 +237,8 @@ export class PurchaseComponent implements OnInit {
     if (CheckRecord.QueryResultData && CheckRecord.QueryResultData.length > 0) {
       let table = JSON.parse(JSON.stringify(CheckRecord.QueryResultData));
       this.PurchaseModelData.PurchaseId = table[0].purchaseId;
-      if (this.InsertIntoDetail()) {
-        alert('Record Added!!!');
-      }
+      this.InsertIntoDetail()
+      Swal.fire("Record Added!!", "", 'success');
     } else {
       this.Qry = `INSERT INTO purchasesummary(purchasedate, terms, vendorId, series, balance) VALUES(?, ?, ?, ?, ?);`;
       this.parameters = [
@@ -256,6 +256,7 @@ export class PurchaseComponent implements OnInit {
           JSON.stringify(data.QueryResultData)
         )['insertId'];
         this.InsertIntoDetail();
+        Swal.fire("Record Added!!", "", 'success');
         this.GetPurchasedData();
         this.IsAddSection = !this.IsAddSection;
       }, 500);
@@ -284,6 +285,7 @@ export class PurchaseComponent implements OnInit {
         data = this.DBService.InsertIntoTables(this.Qry, this.parameters);
         if (data.IsErrorExists) {
           alert(data.ErrorMessgae);
+          Swal.fire("Error: " + data.ErrorMessgae, "", 'error');
           break;
         }
       }
