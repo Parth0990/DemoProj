@@ -1,1 +1,299 @@
-<p>sales works!</p>
+<style></style>
+<div class="m-3 card shadow-lg">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-7 mt-3">
+        <span class="fs-5" *ngIf="IsAddSection">
+          <mat-slide-toggle [(ngModel)]="SalesModelData.IsKhacha">
+            <span *ngIf="!SalesModelData.IsKhacha">Kacha</span>
+            <span *ngIf="SalesModelData.IsKhacha">Pakaa</span>
+          </mat-slide-toggle>
+        </span>
+        <span class="fs-5" *ngIf="!IsAddSection">Sales Master</span>
+      </div>
+      <div class="text-end col-md-2" *ngIf="IsAddSection">
+        <div class="form-floating">
+          <input
+            type="date"
+            [(ngModel)]="SalesModelData.SalesDate"
+            class="form-control"
+          />
+          <label for="floatingInput">Date</label>
+        </div>
+      </div>
+      <div class="col-md-2 text-end" *ngIf="IsAddSection">
+        <div class="form-floating">
+          <select
+            class="form-select"
+            [(ngModel)]="SalesModelData.Terms"
+            id="Terms"
+            name="Terms"
+          >
+            <option></option>
+            <option value="Credit">Credit</option>
+            <option value="Cash">Cash</option>
+          </select>
+          <label for="floatingSelect">Terms</label>
+        </div>
+      </div>
+      <div class="text-end" [ngClass]="!IsAddSection ? 'col-md-5' : 'col-md-1'">
+        <button class="btn btn-outline-primary mt-2" (click)="AddBtnClick()">
+          <span *ngIf="IsAddSection">Back</span>
+          <span *ngIf="!IsAddSection">New</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body" *ngIf="IsAddSection">
+    <div class="row mt-2">
+      <div class="col-md-3">
+        <div class="form-floating mb-3">
+          <select class="form-select" [(ngModel)]="SalesModelData.CustomerId"
+            id="CustomerNameId" name="CustomerName" (ngModelChange)="OnCustomerChange()">
+            <option value="0"></option>
+            <option *ngFor="let item of CustomerList" [value]="item['customerid']">
+              {{ item["customername"] }}
+            </option>
+          </select>
+          <label for="PartyName">Customer Name</label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="Balance"
+            name="Balance"
+            [(ngModel)]="SalesModelData.Balance"
+            placeholder="Balance"
+          />
+          <label for="floatingInput">Balance</label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-floating mb-3">
+          <select class="form-select" [(ngModel)]="SalesModelData.ItemId"
+            (ngModelChange)="OnItemChange()" id="ItemId" name="ItemName">
+            <option value="0"></option>
+            <option *ngFor="let item of ItemList" [value]="item['ItemId']">
+              {{ item["ItemName"] }}
+            </option>
+          </select>
+          <label for="PartyName">Item Name</label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            readonly
+            class="form-control"
+            id="DesignNo"
+            name="DesignNo"
+            [(ngModel)]="SalesModelData.DesignNo"
+            placeholder="DesignNo"
+          />
+          <label for="floatingInput">Design No.</label>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input type="text" readonly="true" class="form-control"
+            id="StockQty" name="StockQty"
+            [(ngModel)]=" SalesModelData.StockQty"
+            placeholder="StockQty"
+          />
+          <label for="floatingInput">Stock Qty.</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input type="number" min="0" max="10"
+            class="form-control" id="SaleQty" name="SaleQty"
+            [(ngModel)]="SalesModelData.SaleQty"
+            placeholder="SaleQty"/>
+          <label for="floatingInput">Sale Qty</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="AltQtyId" name="AltQty" readonly="true"
+            [(ngModel)]="SalesModelData.AltQty" placeholder="AltQty"/>
+          <label for="floatingInput">Alt Qty.</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input type="number" min="0" class="form-control" id="PriceId" name="Price"
+            (input)="OnInputChange()" [(ngModel)]="SalesModelData.Price" placeholder="Price" />
+          <label for="floatingInput">Price</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="PerId" name="Per" readonly="true"
+            [(ngModel)]="SalesModelData.Per" placeholder="Per"/>
+          <label for="floatingInput">Per</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="BasicAmtId" name="BasicAmt" readonly="true"
+            [(ngModel)]="SalesModelData.BasicAmt" placeholder="BasicAmt"/>
+          <label for="floatingInput">Basic Amt</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input type="text" min="0" class="form-control" id="DiscountId" readonly="true"
+            name="Discount" [(ngModel)]="SalesModelData.Discount" placeholder="Discount"/>
+          <label for="floatingInput">Dis. [%]</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input type="number" min="0" class="form-control" id="DiscountAmtId" readonly="true"
+            name="DiscountAmt" [(ngModel)]="SalesModelData.DiscountAmt" placeholder="DiscountAmt" />
+          <label for="floatingInput">Dis Amt.</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input type="text" min="0" class="form-control" id="TaxSlabId" readonly="true"
+            name="TaxSlab" [(ngModel)]="SalesModelData.TaxSlab" placeholder="TaxSlab"/>
+          <label for="floatingInput">Tax [%]</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="TaxAmtId" name="TaxAmt" readonly="true"
+            [(ngModel)]="SalesModelData.TaxAmt" placeholder="TaxAmt" />
+          <label for="floatingInput">Tax Amt</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="NetValue" name="NetValue" readonly="true"
+          [(ngModel)]="SalesModelData.NetValue" placeholder="NetValue"
+          />
+          <label for="floatingInput">Net Value</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <button
+          class="btn btn-outline-primary w-100 mt-2"
+          (click)="OnAddBtnClick()"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-12">
+        <mat-table *ngIf="ItemDataSource && ItemDataSource.length > 0" [dataSource]="ItemDataSource" class="table-bordered w-100">
+          <ng-container matColumnDef="DesignNo">
+            <mat-header-cell *matHeaderCellDef>Design No</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{
+              element.DesignNo
+            }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="StockQty">
+            <mat-header-cell *matHeaderCellDef>Main Qty</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.StockQty }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="SaleQty">
+            <mat-header-cell *matHeaderCellDef>Sale Qty</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.SaleQty }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="AltQty">
+            <mat-header-cell *matHeaderCellDef>Alt Qty</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.AltQty }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Price">
+            <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.Price }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Per">
+            <mat-header-cell *matHeaderCellDef>Per</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.Per }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="BasicAmt">
+            <mat-header-cell *matHeaderCellDef>Basic Amt</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{
+              element.BasicAmt
+            }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Discount">
+            <mat-header-cell *matHeaderCellDef>Dis[%]</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{
+              element.Discount
+            }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="DiscountAmt">
+            <mat-header-cell *matHeaderCellDef>Discount Amt</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{
+              element.DiscountAmt
+            }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="TaxSlab">
+            <mat-header-cell *matHeaderCellDef>Tax[%]</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.TaxSlab }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="TaxAmt">
+            <mat-header-cell *matHeaderCellDef>Tax Amt</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.TaxAmt }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="NetValue">
+            <mat-header-cell *matHeaderCellDef>Net Value</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{
+              element.NetValue
+            }}</mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </div>
+  <div class="card-body" *ngIf="!IsAddSection && SalesDataSource && SalesDataSource.length > 0">
+    <div class="row mt-2">
+      <div class="col-md-12">
+        <mat-table [dataSource]="SalesDataSource" class="table table-bordered">
+          <ng-container matColumnDef="CustomerName">
+            <mat-header-cell *matHeaderCellDef>Customer Name</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.CustomerName }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="ItemName">
+            <mat-header-cell *matHeaderCellDef>Item Name</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.ItemName }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="SalesDate">
+            <mat-header-cell *matHeaderCellDef>Sales Date</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.SalesDate | date: "dd/MMM/yyyy" }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Terms">
+            <mat-header-cell *matHeaderCellDef>Terms</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.Terms }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="TotalAmt">
+            <mat-header-cell *matHeaderCellDef>Total Amt</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.TotalAmt }}</mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="colums"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: colums"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer" *ngIf="IsAddSection">
+    <div class="text-end">
+      <b><span>Total Amount:- {{SalesModelData.TotalAmt}} </span></b>
+      <button class="btn btn-outline-primary" (click)="AddNewRecord()">
+        Save Changes
+      </button>
+    </div>
+  </div>
+</div>

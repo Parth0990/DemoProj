@@ -13,430 +13,173 @@
       </div>
     </div>
   </div>
-  <div *ngIf="IsAddSection">
-    <div class="card-body">
-      <div class="border border-2 border-secondary">
-        <div class="bg-info text-white text-center p-2">
-          <span>Product Basic Information</span>
-        </div>
-        <div class="mx-3 my-2">
-          <div class="row">
-            <div class="col-md-3">
-              <div class="form-floating mb-3">
-                <select class="form-select" [(ngModel)]="ItemMasterData.ItemName" name="ItemName" id="ItemName">
-                  <option></option>
-                  <option value="Bakelite">Bakelite</option>
-                  <option value="ACP">ACP</option>
-                  <option value="APP">APP</option>
-                </select>
-                <label for="floatingSelect">Item Name</label>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="ShortName"
-                  name="ShortName"
-                  [(ngModel)]="ItemMasterData.ShortName"
-                  placeholder="Short Name"
-                />
-                <label for="floatingInput">Short Name</label>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="Thickness"
-                  name="Thickness"
-                  [(ngModel)]="ItemMasterData.Thickness"
-                  placeholder="Thickness"
-                />
-                <label for="floatingInput">Thickness</label>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="DesignNo"
-                  name="DesignNo"
-                  [(ngModel)]="ItemMasterData.DesignNo"
-                  placeholder="Design No."
-                />
-                <label for="floatingInput">Design No.</label>
-              </div>
+  <div class="card-body">
+    <ng-template [ngIf]="IsAddSection">
+      <div class="mx-3 my-2">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-floating mb-3">
+              <input type="number" min="0" class="form-control"
+                id="Thickness" name="Thickness"
+                [(ngModel)]="ItemMasterData.Thickness" placeholder="Thickness"/>
+              <label for="floatingInput">Thickness</label>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-2">
-              <div class="form-floating">
-                <select
-                  class="form-select"
-                  id="TaxSlab"
-                  name="TaxSlab"
-                  [(ngModel)]="ItemMasterData.TaxId"
-                  aria-label="Floating label select example"
-                >
-                  <option></option>
-                  <option value="1">05%</option>
-                  <option value="2">12%</option>
-                  <option value="3">18%</option>
-                  <option value="4">28%</option>
-                  <option value="5">Tax Free</option>
-                </select>
-                <label for="floatingSelect">Tax Slab</label>
-              </div>
+          <div class="col-md-4">
+            <div class="form-floating mb-3">
+              <input type="number" min="0" class="form-control"
+                id="DesignNoId" name="DesignNo" [(ngModel)]="ItemMasterData.DesignNo"/>
+              <label for="floatingInput">Design No.</label>
             </div>
-            <div class="col-md-1">
-              <i class="bi bi-plus-circle fs-3 text-success" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" (click)="OpenDialog(1, 'Tax Slab')"></i>
-              <i class="bi bi-pencil-square mx-3 fs-3 text-primary"></i>
+          </div>
+          <div class="col-md-4">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control"
+                id="ShortNameId" name="ShortName"
+                [(ngModel)]="ItemMasterData.ShortName"
+                placeholder="Short Name"
+              />
+              <label for="floatingInput">Short Name</label>
             </div>
-            <div class="col-md-2">
-              <div class="form-floating mb-3">
-                <select class="form-select" [(ngModel)]="ItemMasterData.ItemCompanyId" name="ItemCompanyId" id="ItemCompanyId">
-                  <option></option>
-                  <option value="1">05%</option>
-                  <option value="2">12%</option>
-                  <option value="3">18%</option>
-                  <option value="4">28%</option>
-                  <option value="5">Tax Free</option>
-                </select>
-                <label for="floatingSelect">Item Company</label>
-              </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-floating mb-3">
+              <select class="form-select" [(ngModel)]="ItemMasterData.ItemGroupId" name="ItemGroup" id="ItemGroupId">
+                <option></option>
+                <option *ngFor="let item of GroupNameList" [value]="item['Id']">
+                  {{ item["Name"] }}
+                </option>
+              </select>
+              <label for="floatingSelect">Item Group</label>
             </div>
-            <div class="col-md-1 mt-2">
-              <i class="bi bi-plus-circle fs-3 text-success"></i>
-              <i class="bi bi-pencil-square mx-3 fs-3 text-primary"></i>
+          </div>
+          <div class="col-md-1 mt-2">
+            <i class="bi bi-plus-circle fs-3 text-success" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" (click)="OpenDialog()"></i>
+            <i class="bi bi-pencil-square mx-3 fs-3 text-primary"></i>
+          </div>
+          <div class="col-md-4">
+            <div class="form-floating mb-3">
+              <select class="form-select" name="ItemUnit" [(ngModel)]="ItemMasterData.ItemUnit" id="ItemUnitId">
+                <option></option>
+                <option value="SQ FT">SQ FT</option>
+                <option value="Piece">Piece</option>
+              </select>
+              <label for="floatingSelect">Primary Unit</label>
             </div>
-            <div class="col-md-3">
-              <div class="form-floating mb-3">
-                <select class="form-select" [(ngModel)]="ItemMasterData.ItemGroupId" name="ItemGroupId" id="ItemGroupId">
-                  <option></option>
-                  <option value="1">05%</option>
-                  <option value="2">12%</option>
-                  <option value="3">18%</option>
-                  <option value="4">28%</option>
-                  <option value="5">Tax Free</option>
-                </select>
-                <label for="floatingSelect">Item Group</label>
-              </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-floating mb-3">
+              <input type="number" min="0" class="form-control"
+                id="floatingInput" placeholder="Item Unit Per Rate" [(ngModel)]="ItemMasterData.ItemUnitPerRate"/>
+              <label for="floatingInput">Item Unit Per Rate</label>
             </div>
-            <div class="col-md-1 mt-2">
-              <i class="bi bi-plus-circle fs-3 text-success"></i>
-              <i class="bi bi-pencil-square mx-3 fs-3 text-primary"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-floating mb-3">
+              <input
+              type="number" min="0" class="form-control"
+                id="floatingInput" placeholder="Stock Qty" [(ngModel)]="ItemMasterData.StockQty"/>
+              <label for="floatingInput">Stock Qty</label>
             </div>
-            <div class="col-md-2">
-              <div class="form-floating mb-3">
-                <select class="form-select" name="ItemUnitId" [(ngModel)]="ItemMasterData.ItemUnitId" id="ItemUnitId">
-                  <option></option>
-                  <option value="1">05%</option>
-                  <option value="2">12%</option>
-                  <option value="3">18%</option>
-                  <option value="4">28%</option>
-                  <option value="5">Tax Free</option>
-                </select>
-                <label for="floatingSelect">Primary Unit</label>
-              </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-floating mb-3">
+              <input
+                type="number" min="0"
+                class="form-control"
+                id="TaxSlabId"
+                name="TaxSlab"
+                [(ngModel)]="ItemMasterData.TaxSlab"
+                placeholder="Tax Slab"
+              />
+              <label for="floatingInput">Tax Slab</label>
             </div>
-            <div class="col-md-1 mt-2">
-              <i class="bi bi-plus-circle fs-3 text-success"></i>
-              <i class="bi bi-pencil-square mx-3 fs-3 text-primary"></i>
+          </div> 
+          <div class="col-md-4">
+            <div class="form-floating mb-3">
+              <input
+              type="number" min="0"
+                class="form-control"
+                id="Discount" name="Discount"
+                [(ngModel)]="ItemMasterData.Discount"
+                placeholder="Discount"
+              />
+              <label for="floatingInput">Discount [%]</label>
             </div>
           </div>
         </div>
       </div>
-      <div class="my-2">
-        <div class="border border-2 border-secondary">
-          <div class="bg-info text-white text-center p-2">
-            <span>Items Details & Stock Information</span>
-          </div>
-          <div class="mx-3 my-2">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="PurchasePrice" name="PurchasePrice"
-                    [(ngModel)]="ItemMasterData.PurchasePrice"
-                    placeholder="Purchase Price"
-                  />
-                  <label for="floatingInput">Purchase Price</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="SalePrice"
-                    name="SalePrice"
-                    [(ngModel)]="ItemMasterData.SalesPrice"
-                    placeholder="Sale Price"
-                  />
-                  <label for="floatingInput">Sale Price</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="MRP" name="MRP"
-                    [(ngModel)]="ItemMasterData.MRP"
-                    placeholder="MRP"
-                  />
-                  <label for="floatingInput">M.R.P</label>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="BasePrice"
-                    name="BasePrice" [(ngModel)]="ItemMasterData.BasePrice"
-                    placeholder="Base Price"
-                  />
-                  <label for="floatingInput">Basic Price</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="MinSalePrice"
-                    name="MinSalePrice"
-                    [(ngModel)]="ItemMasterData.MinSalePrice"
-                    placeholder="Min. Sale Price"
-                  />
-                  <label for="floatingInput">Min. Sale Price</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="SelfValuePrice" name="SelfValuePrice"
-                    [(ngModel)]="ItemMasterData.SelfValuePrice"
-                    placeholder="Self Value Price"
-                  />
-                  <label for="floatingInput">Self Val. Price</label>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="MinimumStock"
-                    name="MinimumStock"
-                    [(ngModel)]="ItemMasterData.MinimumStock"
-                    placeholder="Minimum Stock"
-                  />
-                  <label for="floatingInput">Minimum Stock</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="MaximumStock"
-                    name="MaximumStock" [(ngModel)]="ItemMasterData.MaximumStock"
-                    placeholder="Maximum Stock"
-                  />
-                  <label for="floatingInput">Maximum Stock</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="ReorderStock" name="ReorderStock"
-                    [(ngModel)]="ItemMasterData.ReorderStock"
-                    placeholder="Re-order Stock"
-                  />
-                  <label for="floatingInput">Re-Order Stock</label>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="Discount" name="Discount"
-                    [(ngModel)]="ItemMasterData.Discount"
-                    placeholder="Discount [%]"
-                  />
-                  <label for="floatingInput">Discount [%]</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="ItemLocation" name="ItemLocation"
-                    [(ngModel)]="ItemMasterData.ItemLocation"
-                    placeholder="Item Location"
-                  />
-                  <label for="floatingInput">Item Location</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="BarCode" name="BarCode"
-                    [(ngModel)]="ItemMasterData.BarCode"
-                    placeholder="BarCode"
-                  />
-                  <label for="floatingInput">Barcode</label>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="ItemDescription" name="ItemDescription"
-                    [(ngModel)]="ItemMasterData.ItemDescription"
-                    placeholder="Item Description"
-                  />
-                  <label for="floatingInput">Item Decription</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="StockQty" name="StockQty"
-                    [(ngModel)]="ItemMasterData.StockQty"
-                    placeholder="Stock Qty"
-                  />
-                  <label for="floatingInput">Op. Stock Qty</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="StockValue" name="StockValue"
-                    [(ngModel)]="ItemMasterData.StockValue"
-                    placeholder="Stock Value"
-                  />
-                  <label for="floatingInput">Op. Stock Value</label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="my-2" *ngIf="false">
-        <div class="border border-2 border-secondary">
-          <div class="bg-info text-white text-center p-2">
-            <span>Tax Slab Wise Account Posting</span>
-          </div>
-          <div class="mx-3 my-2">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="form-floating mb-3">
-                  <select
-                    class="form-select"
-                    id="floatingSelect"
-                    aria-label="Floating label select example"
-                  >
-                    <option></option>
-                    <option value="1">05%</option>
-                    <option value="2">12%</option>
-                    <option value="3">18%</option>
-                    <option value="4">28%</option>
-                    <option value="5">Tax Free</option>
-                  </select>
-                  <label for="floatingSelect">Purchase Head</label>
-                </div>
-              </div>
-              <div class="col-md-1">
-                <i class="bi bi-plus-circle fs-3 text-success"></i>
-                <i class="bi bi-pencil-square mx-3 fs-3 text-primary"></i>
-              </div>
-              <div class="col-md-3">
-                <div class="form-floating mb-3">
-                  <select
-                    class="form-select"
-                    id="floatingSelect"
-                    aria-label="Floating label select example"
-                  >
-                    <option></option>
-                    <option value="1">05%</option>
-                    <option value="2">12%</option>
-                    <option value="3">18%</option>
-                    <option value="4">28%</option>
-                    <option value="5">Tax Free</option>
-                  </select>
-                  <label for="floatingSelect">Sale Head</label>
-                </div>
-              </div>
-              <div class="col-md-1">
-                <i class="bi bi-plus-circle fs-3 text-success"></i>
-                <i class="bi bi-pencil-square mx-3 fs-3 text-primary"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card-footer">
-      <div class="text-end">
-        <button class="btn btn-primary" style="width: 10%" (click)="OnItemSave()">Save</button>
-      </div>
-    </div>
+    </ng-template>
+    <ng-template [ngIf]="!IsAddSection">
+      <mat-table class="table table-responsive-lg" [dataSource]="ItemsDataSource">
+        <ng-container matColumnDef="ItemName">
+          <mat-header-cell *matHeaderCellDef>Item Name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.ItemName }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="ShortName">
+          <mat-header-cell *matHeaderCellDef>Short Name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.ShortName }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="GroupName">
+          <mat-header-cell *matHeaderCellDef>Item Group Name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.ItemGroupName }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Thickness">
+          <mat-header-cell *matHeaderCellDef>Thickness</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.Thickness }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="DesignNo">
+          <mat-header-cell *matHeaderCellDef>Design No</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.DesignNo }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="StockQty">
+          <mat-header-cell *matHeaderCellDef>Stock Qty</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.StockQty }}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="colums"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: colums"></mat-row>
+      </mat-table>
+    </ng-template>
   </div>
-  <div class="card-body" *ngIf="!IsAddSection">
-    <mat-table class="table table-responsive-lg" [dataSource]="ItemsDataSource">
-      <ng-container matColumnDef="ItemName">
-        <mat-header-cell *matHeaderCellDef>Item Name</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.ItemName }}</mat-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="colums"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: colums"></mat-row>
-    </mat-table>
+  <div class="card-footer">
+    <div class="text-end">
+      <button class="btn btn-primary" style="width: 10%" (click)="OnItemSave()">Save</button>
+    </div>
   </div>
 </div>
+
+
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header bg-info text-white fw-bold">
-        <h5 class="modal-title fs-4 " id="exampleModalLongTitle">{{DialogTitle}}</h5>
+        <h5 class="modal-title fs-4 " id="exampleModalLongTitle">Add New Group Name</h5>
       </div>
       <div class="modal-body">
-        Hello
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInput"
+                placeholder="GroupName" [(ngModel)]="GroupName"
+              />
+              <label for="floatingInput">Group Name</label>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="getGroupNameList()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="OnModalSave()">Save</button>
       </div>
     </div>
   </div>
-</div>  
+</div>
+

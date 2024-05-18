@@ -11,14 +11,14 @@ const url = require('url');
 let win 
 function createWindow () { 
 win = new BrowserWindow({
-    autoHideMenuBar: true,
+    //autoHideMenuBar: true,
     webPreferences: {
         nodeIntegration: true,
         contextIsolation: false,
     }
 }) // load the dist folder from Angular 
 win.loadURL(url.format({ pathname: path.join(__dirname, 'dist/angular-app/browser/index.html'), protocol: 'file:', slashes: true })) 
-// Open the DevTools optionally: 
+// Open the DevTools optionally:
 win.webContents.openDevTools();
 win.maximize();
 win.on('closed', () => { win = null }); 

@@ -75,4 +75,24 @@ export class DBService {
     );
     return _dataResult;
   }
+
+  DeleteFromTable(Qry: string, PrimaryKey: string){
+    let _dataResult = new DBServiceModel();
+    Qry += PrimaryKey;
+    this.connection.query(Qry, function(err: any, results: any, fields: any){
+      if (!!err) {
+        _dataResult.IsErrorExists = true;
+        _dataResult.ErrorMessgae = err.message;
+      } else if (!!results) {
+        console.log('called');
+        _dataResult.IsQueryExecuted = true;
+        _dataResult.QueryResultData = results;
+      } else {
+        console.log('some error occurred!');
+      }
+      console.log(_dataResult);
+      return _dataResult;
+    });
+    return _dataResult;
+  }
 }
