@@ -1,0 +1,22 @@
+.bill-main{
+    width:100%;
+    padding:10px;
+    display:flex;
+    align-items: center;
+    justify-content:space-between;
+}
+.bill-left{
+    width:20%;
+    min-width:20%;
+    max-width: 20%;
+}
+.bill-center{
+    width:58%;
+    min-width:58%;
+    max-width: 58%;
+}
+.bill-right{
+    width:20%;
+    min-width:20%;
+    max-width: 20%;
+}

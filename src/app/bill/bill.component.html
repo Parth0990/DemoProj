@@ -1,0 +1,98 @@
+
+
+<div class="m-3 card shadow-lg">
+  <div class="card-header"> 
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-floating mb-3">
+          <select class="form-select" [(ngModel)]="CustomerId" id="CustomerNameId" name="CustomerName" (ngModelChange)="OnCustomerChange()">
+            <option value="0"></option>
+            <option *ngFor="let item of CustomerList" [value]="item['Id']">
+              {{ item["Name"] }}
+            </option>
+          </select>
+          <label for="PartyName">Customer Name</label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-floating">
+          <input
+            type="date" [(ngModel)]="currentDate" class="form-control"/>
+          <label for="floatingInput">Date</label>
+        </div>
+      </div>
+      <div class="col-md-3 mt-3">
+        <mat-slide-toggle [(ngModel)]="IsKhacha">
+          <span *ngIf="!IsKhacha">With Out Rate</span>
+          <span *ngIf="IsKhacha">With Rate</span>
+        </mat-slide-toggle>
+      </div>
+    </div>
+</div>
+</div>
+
+<div>
+  <div class="bill-main">
+    <div class="bill-left">
+  
+    </div>
+    <div class="bill-center">
+      <p style="margin-bottom: 0px;
+      text-align: center;
+      text-decoration: underline;
+      padding-bottom: 5px;
+      font-size: 16px;
+      font-weight: bold;">Delivery Challan</p>
+      <p style="font-size:14px; text-align: center; margin-bottom: 3px;">|| Shree Ganeshay Namah ||</p>
+      <h2 style="text-align: center; margin-bottom: 2px;">AMBIKA LAMINATES</h2>
+      <p style="text-align: center;">Plot No,C- 450/4,Opp. Mayur Cold Store & Sun Ravi Bus Stop, Pawane MIDC,<br>
+      ITC Industrial Area, (Near by Turbhe Railway Station), Navi Mumbai - 400 705.</p>
+      <p style="font-size:14px; text-align: center;">Mob.: 8928031418 / 9930809020 / 9833117919</p>
+    </div>
+    <div class="bill-right">
+  
+    </div>
+  </div>
+  
+  <div class="nodate" style="display: flex; justify-content: space-between; padding: 0px 15px;">
+  <div style="width:40%; min-width: 40%; max-width: 40%;">
+    <p>No : <span></span></p>
+  </div>
+  <div  style="width:40%; min-width: 40%; max-width: 40%; text-align: end;">
+    Date : <span>{{currentDate}}</span>
+  </div>
+  </div>
+  <div class="nms" style="margin-top: 10px;  padding: 0px 15px;">
+    <div style="width:100%;">
+      <p>M/S : <span>{{CustomerName}}</span></p>
+    </div>
+  </div>
+  <div class="row" *ngIf="this.DataSource && this.DataSource.length > 0">
+    <mat-table #table [dataSource]="this.DataSource">
+      <ng-container matColumnDef="WithOutRate">
+        <mat-header-cell *matHeaderCellDef>Product</mat-header-cell>
+        <mat-cell *matCellDef="let item">{{item.WithOutRate}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+      <mat-row *matRowDef="let row;columns:columns;"></mat-row>
+    </mat-table>
+  </div>
+  <div class="row col-md-3" *ngIf="this.SummaryDataSource && this.SummaryDataSource.length > 0">
+    <mat-table #table [dataSource]="this.SummaryDataSource">
+      <ng-container matColumnDef="Thick">
+        <mat-header-cell *matHeaderCellDef>Thick</mat-header-cell>
+        <mat-cell *matCellDef="let item">{{item.Thick}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="ShortName">
+        <mat-header-cell *matHeaderCellDef>ShortName</mat-header-cell>
+        <mat-cell *matCellDef="let item">{{item.ShortName}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Qty">
+        <mat-header-cell *matHeaderCellDef>Qty</mat-header-cell>
+        <mat-cell *matCellDef="let item">{{item.Qty}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="Summarycolumns"></mat-header-row>
+      <mat-row *matRowDef="let row;columns:Summarycolumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>
