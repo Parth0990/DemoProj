@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DBService } from '../app.dbservice';
+import Swal from 'sweetalert2';
 
 export class DropDownProp{
   Id: number = 0;
@@ -31,7 +32,7 @@ export class StockreportComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if(data.IsErrorExists){
-        alert(data.ErrorMessgae);
+        Swal.fire(data.ErrorMessgae, "", "error");
       }
       else{
         if(data.QueryResultData && data.QueryResultData.length > 0){

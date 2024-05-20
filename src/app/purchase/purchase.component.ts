@@ -104,7 +104,7 @@ export class PurchaseComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        alert(data.ErrorMessgae);
+        Swal.fire(data.ErrorMessgae, "", "error");
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
           this.PurchaseDataSource = JSON.parse(
@@ -144,7 +144,7 @@ export class PurchaseComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        alert(data.ErrorMessgae);
+        Swal.fire(data.ErrorMessgae, "", "error");
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
           this.VendorList = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -161,7 +161,7 @@ export class PurchaseComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        alert(data.ErrorMessgae);
+        Swal.fire(data.ErrorMessgae, "", "error");
       } else {
         if (data.IsQueryExecuted) {
           let newDT = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -179,7 +179,7 @@ export class PurchaseComponent implements OnInit {
       let data = this.DBService.query(this.Qry);
       setTimeout(() => {
         if (data.IsErrorExists) {
-          alert(data.ErrorMessgae);
+          Swal.fire(data.ErrorMessgae, "", "error");
         } else {
           if (data.QueryResultData && data.QueryResultData.length > 0) {
             let newData = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -214,7 +214,7 @@ export class PurchaseComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        alert(data.ErrorMessgae);
+        Swal.fire(data.ErrorMessgae, "", "error");
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
           this.GroupNameList = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -249,7 +249,7 @@ export class PurchaseComponent implements OnInit {
         this.PurchaseModelData.Balance,
       ];
 
-      data = this.DBService.InsertIntoTables(this.Qry, this.parameters);
+      data = this.DBService.InsertUpdateTables(this.Qry, this.parameters);
 
       setTimeout(() => {
         this.PurchaseModelData.PurchaseId = JSON.parse(
@@ -282,9 +282,8 @@ export class PurchaseComponent implements OnInit {
           this.PurchaseArrModel[i].TaxAmt,
           this.PurchaseArrModel[i].NetValue,
         ];
-        data = this.DBService.InsertIntoTables(this.Qry, this.parameters);
+        data = this.DBService.InsertUpdateTables(this.Qry, this.parameters);
         if (data.IsErrorExists) {
-          alert(data.ErrorMessgae);
           Swal.fire("Error: " + data.ErrorMessgae, "", 'error');
           break;
         }

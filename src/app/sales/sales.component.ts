@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { DBService, DBServiceModel } from '../app.dbservice';
+import Swal from 'sweetalert2';
 
 export class SalesModel {
   SalesId: number = 0;
@@ -104,7 +105,7 @@ export class SalesComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        alert(data.ErrorMessgae);
+        Swal.fire(data.ErrorMessgae, "", "error");
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
           this.SalesDataSource = JSON.parse(
@@ -152,7 +153,7 @@ export class SalesComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        alert(data.ErrorMessgae);
+        Swal.fire(data.ErrorMessgae, "", "error");
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
           this.CustomerList = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -181,7 +182,7 @@ export class SalesComponent implements OnInit {
       let data = this.DBService.query(this.Qry);
       setTimeout(() => {
         if (data.IsErrorExists) {
-          alert(data.ErrorMessgae);
+          Swal.fire(data.ErrorMessgae, "", "error");
         } else {
           if (data.QueryResultData && data.QueryResultData.length > 0) {
             let newData = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -217,7 +218,7 @@ export class SalesComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        alert(data.ErrorMessgae);
+        Swal.fire(data.ErrorMessgae, "", "error");
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
           this.ItemList = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -256,7 +257,7 @@ export class SalesComponent implements OnInit {
         this.currentDateTime
       ];
 
-      data = this.DBService.InsertIntoTables(this.Qry, this.parameters);
+      data = this.DBService.InsertUpdateTables(this.Qry, this.parameters);
 
       setTimeout(() => {
         this.SalesModelData.SalesId = JSON.parse(
@@ -291,9 +292,9 @@ export class SalesComponent implements OnInit {
           this.SalesArrModel[i].TaxAmt,
           this.SalesArrModel[i].NetValue,
         ];
-        data = this.DBService.InsertIntoTables(this.Qry, this.parameters);
+        data = this.DBService.InsertUpdateTables(this.Qry, this.parameters);
         if (data.IsErrorExists) {
-          alert(data.ErrorMessgae);
+          Swal.fire(data.ErrorMessgae, "", "error");
           break;
         }
       }

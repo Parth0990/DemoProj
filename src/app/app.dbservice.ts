@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+//import {mysql} from  'mysql';
 const mysql = (<any>window).require('mysql');
 import { retry } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -53,7 +54,7 @@ export class DBService {
     return _dataResult;
   }
 
-  InsertIntoTables(Qry: string, parameters: []) {
+  InsertUpdateTables(Qry: string, parameters: any[]) {
     let _dataResult = new DBServiceModel();
     this.connection.query(
       Qry,
@@ -76,9 +77,8 @@ export class DBService {
     return _dataResult;
   }
 
-  DeleteFromTable(Qry: string, PrimaryKey: string){
+  DeleteFromTable(Qry: string){
     let _dataResult = new DBServiceModel();
-    Qry += PrimaryKey;
     this.connection.query(Qry, function(err: any, results: any, fields: any){
       if (!!err) {
         _dataResult.IsErrorExists = true;

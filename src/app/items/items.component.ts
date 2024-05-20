@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableModule,MatTableDataSource } from '@angular/material/table';
 import { DBService } from '../app.dbservice';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 export class ItemMasterModel{
   ItemId:number =  0;
@@ -71,7 +72,7 @@ export class ItemsComponent implements OnInit {
     let data = this.dbservice.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        alert(data.ErrorMessgae);
+        Swal.fire(data.ErrorMessgae, "", 'error');
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
           let result = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -87,7 +88,7 @@ export class ItemsComponent implements OnInit {
     let data = this.dbservice.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        alert(data.ErrorMessgae);
+        Swal.fire(data.ErrorMessgae, "", "error");
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
           this.GroupNameList = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -100,9 +101,9 @@ export class ItemsComponent implements OnInit {
     let parameters: any;
     this.Qry=`Insert Into ItemGroupMaster(ItemGroupName) Values(?)`;
     parameters = [this.GroupName];
-    let data = this.dbservice.InsertIntoTables(this.Qry, parameters);
+    let data = this.dbservice.InsertUpdateTables(this.Qry, parameters);
     if (data.IsErrorExists) {
-      //alert(data.ErrorMessgae);
+      Swal.fire(data.ErrorMessgae, "", "error");
     }
     else{
       this.GroupName="";
@@ -129,12 +130,12 @@ export class ItemsComponent implements OnInit {
       , this.ItemMasterData.ItemGroupId, this.ItemMasterData.ItemUnit,this.ItemMasterData.ItemUnitPerRate,this.ItemMasterData.StockQty
       , this.ItemMasterData.TaxSlab,this.ItemMasterData.Discount,this.currentDateTime,this.currentDateTime];
 
-       let data = this.dbservice.InsertIntoTables(Qry, parameters);
+       let data = this.dbservice.InsertUpdateTables(Qry, parameters);
        if (data.IsErrorExists) {
-        //alert(data.ErrorMessgae);
+        Swal.fire(data.ErrorMessgae, "", "error");
       }
       else{
-        //alert('Record Added!!!');
+        Swal.fire("Record Added!!!", "", "success");
         this.clearModelData();
         this.getItemList();
         this.IsAddSection = !this.IsAddSection;

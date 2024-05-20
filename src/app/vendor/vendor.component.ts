@@ -42,6 +42,7 @@ export class VendorComponent implements OnInit {
   displayedColumns: string[] = ['vendorname','contactpersonname','mobileno', 'Action'];
   CityStateDropDown = [];
   CityList: DropDownProp[] = [];
+  parameter: any[] = [];
   Qry: any = '';
   LocationData: any = '';
   LocationName: any = '';
@@ -73,8 +74,8 @@ AddBtnClick(Action: string){
 
 DeleteVendorData(element: any){
   try{
-    this.Qry = "Delete From VendorMaster ";
-    let data = this.dbservice.DeleteFromTable(this.Qry, "WHERE vendorId = " + element.vendorid);
+    this.Qry = "Delete From VendorMaster WHERE vendorId = " + element.vendorid;
+    let data = this.dbservice.DeleteFromTable(this.Qry);
     if(data.IsErrorExists){
       Swal.fire(data.ErrorMessgae, "", "error");
     }
@@ -152,21 +153,43 @@ EditVendorData(element: any){
 }
 
 Update(){
+  try{
+    this.Qry = `Update vendormaster SET VendorName = ?, contactpersonname=?, mobileno = ?, email = ?
+                , address = ?, locationid = ?, cityid = ?, stateid = ?, pincode = ?, accountno = ?, 
+                gstno = ?, openingbal = ?, openingbalmode = ? WHERE vendorId = ` + this.vendorMasModel.vendorid;
+    this.parameter = [this.vendorMasModel.vendorname, this.vendorMasModel.contactpersonname, this.vendorMasModel.mobileno,
+      this.vendorMasModel.email, this.vendorMasModel.address, this.vendorMasModel.locationid, this.vendorMasModel.cityid,
+      this.vendorMasModel.stateid, this.vendorMasModel.pincode, this.vendorMasModel.accountno, this.vendorMasModel.gstno,
+      this.vendorMasModel.openingbal, this.vendorMasModel.openingbalmode];
 
+      let data = this.dbservice.InsertUpdateTables(this.Qry, this.parameter);
+      if(data.IsErrorExists){
+        Swal.fire(data.ErrorMessgae, "", "error");
+      }
+      else{
+        Swal.fire("Record Updated!!!");
+        this.getVendorList();
+        this.vendorlist = true;
+        this.IsEditSection = false;
+        this.IsAddSection = false;
+      }
+  }
+  catch(ex: any){
+    Swal.fire(ex, "", "error");
+  }
 }
 
 save(){
-  let parameters: any;
-  let Qry = `insert Into vendormaster
+  this.Qry = `insert Into vendormaster
 	(vendorname,contactpersonname,mobileno,email,address,locationid,cityid,stateid,pincode,accountno,gstno,openingbal,openingbalmode) 
 	Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
 
-  parameters = [this.vendorMasModel.vendorname, this.vendorMasModel.contactpersonname, this.vendorMasModel.mobileno
+  this.parameter = [this.vendorMasModel.vendorname, this.vendorMasModel.contactpersonname, this.vendorMasModel.mobileno
     , this.vendorMasModel.email, this.vendorMasModel.address, this.vendorMasModel.locationid,this.vendorMasModel.cityid
     , this.vendorMasModel.stateid, this.vendorMasModel.pincode, this.vendorMasModel.accountno
     , this.vendorMasModel.gstno, this.vendorMasModel.openingbal, this.vendorMasModel.openingbalmode];
 
-     let data = this.dbservice.InsertIntoTables(Qry, parameters);
+     let data = this.dbservice.InsertUpdateTables(this.Qry, this.parameter);
      //alert("Saved!!");
      if(data.IsErrorExists){
       Swal.fire(data.ErrorMessgae, "", "error");
