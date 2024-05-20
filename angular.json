@@ -38,7 +38,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/angular-app",
+            "outputPath": "dist/erp-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -47,7 +47,9 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/package.json",
+              "src/electron.prod.js"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
@@ -62,6 +64,7 @@
           },
           "configurations": {
             "production": {
+              "namedChunks": true,
               "budgets": [
                 {
                   "type": "initial",

@@ -29,7 +29,8 @@
                 <ng-container matColumnDef="action">
                   <mat-header-cell *matHeaderCellDef>action</mat-header-cell>
                   <mat-cell *matCellDef="let item">
-                    
+                    <button class="btn btn-outline-info" (click)="CrudPanel(item, 'Edit')">Edit</button>
+                    <button class="btn btn-outline-danger mx-3" (click)="CrudPanel(item, 'Delete')">Delete</button>
                   </mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -200,7 +201,7 @@
           </ng-template>
         </div>
       </div>
-      <div class="card-footer">
+      <div class="card-footer" *ngIf="IsAddSection">
           <div class="text-end">
               <button class="btn btn-primary" style="width: 10%;" (click)="save()">Save</button>
           </div>
