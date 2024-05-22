@@ -134,3 +134,90 @@ create table saleheadmaster(
     saleheadid INT AUTO_INCREMENT PRIMARY KEY,
     saleheadname VARCHAR(100) NOT NULL
 );
+
+create table PurchaseDetail(
+    purchaseid INT,
+    itemid INT,
+    batch VARCHAR(50) NOT NULL,
+    mainqty int,
+    altqty int,
+    free VARCHAR(50) NOT NULL,
+    per VARCHAR(10) NOT NULL,
+    basicqty int,
+    discount int,
+    discountamt int,
+    taxamt int,
+    netvalue int,
+    CONSTRAINT fk_Purchase_purchaseid FOREIGN KEY (purchaseid) REFERENCES PurchaseSummary(purchaseid),
+    CONSTRAINT fk_Purchase_itemid FOREIGN KEY (itemid) REFERENCES itemmaster(itemid));
+
+    create table vendormaster(
+    vendorid INT AUTO_INCREMENT PRIMARY KEY,
+    vendorname VARCHAR(100) NOT NULL,
+    contactpersonname VARCHAR(100) NOT NULL,
+    mobileno BIGINT,
+    email VARCHAR(50) NOT NULL,
+    address VARCHAR(1000) NOT NULL,
+    locationid int,
+    cityid INT NOT NULL,
+    stateid INT NOT NULL,
+    pincode int,
+    accountno VARCHAR(50) NOT NULL,
+    gstno VARCHAR(15) NOT NULL,
+    openingbal int,
+    openingbalmode VARCHAR(5) NOT NULL,
+    CONSTRAINT fk_vendor_locationid FOREIGN KEY (locationid) REFERENCES locationmaster(locationid),
+    CONSTRAINT fk_vendor_cityid FOREIGN KEY (cityid) REFERENCES citymaster(cityid),
+    CONSTRAINT fk_vendor_stateid FOREIGN KEY (stateid) REFERENCES statemaster(stateid));
+
+    CREATE TABLE itemmaster (
+   ItemId int AUTO_INCREMENT PRIMARY KEY,
+   ItemName varchar(50) NOT NULL,
+   Thickness int DEFAULT NULL,
+   DesignNo int DEFAULT NULL,
+   ShortName varchar(10) NOT NULL,
+   ItemGroupId int DEFAULT NULL,
+   ItemUnit varchar(10) DEFAULT NULL,
+   ItemUnitPerRate int DEFAULT NULL,
+   StockQty int DEFAULT NULL,
+   TaxSlab int DEFAULT NULL,
+   Discount int DEFAULT NULL,
+   CreatedDate datetime DEFAULT NULL,
+   ModifiedDate datetime DEFAULT NULL,
+   CONSTRAINT FK_ItemMaster_ItemGroupId FOREIGN KEY (ItemGroupId) REFERENCES itemgroupmaster (itemgroupid)
+ )
+
+ CREATE TABLE salessummary (
+   SalesId int NOT NULL AUTO_INCREMENT,
+   CustomerId int DEFAULT NULL,
+   SalesDate date DEFAULT NULL,
+   Terms varchar(10) NOT NULL,
+   Balance bigint DEFAULT NULL,
+   TotalAmt bigint DEFAULT NULL,
+   CreatedDate datetime DEFAULT NULL,
+   ModifiedDate datetime DEFAULT NULL,
+   IsKhacha bit(1) DEFAULT NULL,
+   PRIMARY KEY (SalesId),
+   KEY FK_SalesSummary_CustomerId (CustomerId),
+   CONSTRAINT FK_SalesSummary_CustomerId FOREIGN KEY (CustomerId) REFERENCES customermaster (customerid)
+ );
+
+CREATE TABLE salesdetail (
+   SalesId int DEFAULT NULL,
+   ItemId int DEFAULT NULL,
+   StockQty int DEFAULT NULL,
+   SalesQty int DEFAULT NULL,
+   AltQty int DEFAULT NULL,
+   Price int DEFAULT NULL,
+   Per varchar(10) NOT NULL,
+   BasicAmt int DEFAULT NULL,
+   DisPercentage int DEFAULT NULL,
+   DiscountAmt int DEFAULT NULL,
+   TaxPercentage int DEFAULT NULL,
+   TaxAmount int DEFAULT NULL,
+   NetValue int DEFAULT NULL,
+   KEY FK_SalesDetail_SalesId (SalesId),
+   KEY FK_SalesDetail_ItemId (ItemId),
+   CONSTRAINT FK_SalesDetail_ItemId FOREIGN KEY (ItemId) REFERENCES itemmaster (ItemId),
+   CONSTRAINT FK_SalesDetail_SalesId FOREIGN KEY (SalesId) REFERENCES salessummary (SalesId)
+ );

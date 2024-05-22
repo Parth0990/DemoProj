@@ -144,15 +144,17 @@ export class CustomerComponent implements OnInit {
             `Delete From customermaster WHERE CustomerId = ` +
             this.customerMasModel.customerid;
           let data = this.dbservice.query(this.Qry);
-          if(data.IsErrorExists){
-            Swal.fire(data.ErrorMessgae, "", "error");
-          }
-          else{
-            this.Customerlist = false;
-            Swal.fire("Deleted!!", "", "success");
-            this.getCustomerList();
-            this.Customerlist = true;
-          }
+          setTimeout(() => {
+            if(data.IsErrorExists){
+              Swal.fire(data.ErrorMessgae, "", "error");
+            }
+            else{
+              this.Customerlist = false;
+              Swal.fire("Deleted!!", "", "success");
+              this.getCustomerList();
+              this.Customerlist = true;
+            }
+          }, 500);
         }
       });
       this.OperationType = Action;
@@ -188,13 +190,16 @@ export class CustomerComponent implements OnInit {
     ];
 
     let data = this.dbservice.InsertUpdateTables(this.Qry, this.parameter);
-    if (data.IsErrorExists) {
-      Swal.fire(data.ErrorMessgae, '', 'error');
-    } else {
-      Swal.fire('Record Added!!!', '', 'success');
-      this.getCustomerList();
-      this.Customerlist = true;
-      this.IsAddSection = false;
-    }
+
+    setTimeout(() => {
+      if (data.IsErrorExists) {
+        Swal.fire(data.ErrorMessgae, '', 'error');
+      } else {
+        Swal.fire('Record Added!!!', '', 'success');
+        this.getCustomerList();
+        this.Customerlist = true;
+        this.IsAddSection = false;
+      }
+    }, 500);
   }
 }
