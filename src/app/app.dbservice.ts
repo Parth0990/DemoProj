@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-//import {mysql} from  'mysql';
 const mysql = (<any>window).require('mysql');
 import { retry } from 'rxjs';
 import Swal from 'sweetalert2';

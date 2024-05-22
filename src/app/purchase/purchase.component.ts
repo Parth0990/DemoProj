@@ -9,6 +9,7 @@ export class PurchaseModel {
   PurchaseId: number = 0;
   GroupName: string = '';
   ItemName: string = '';
+  ItemGroupId: number = 0;
   Batch: string = '';
   EffectiveDate: Date = new Date();
   Terms: number = 0;
@@ -104,14 +105,12 @@ export class PurchaseComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        Swal.fire(data.ErrorMessgae, "", "error");
+        Swal.fire(data.ErrorMessgae, '', 'error');
       } else {
-        if (data.QueryResultData && data.QueryResultData.length > 0) {
-          this.PurchaseDataSource = JSON.parse(
-            JSON.stringify(data.QueryResultData)
-          );
-          console.log(this.PurchaseDataSource);
-        }
+        this.PurchaseDataSource = JSON.parse(
+          JSON.stringify(data.QueryResultData)
+        );
+        console.log(this.PurchaseDataSource);
       }
       console.log(data);
     }, 500);
@@ -144,7 +143,7 @@ export class PurchaseComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        Swal.fire(data.ErrorMessgae, "", "error");
+        Swal.fire(data.ErrorMessgae, '', 'error');
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
           this.VendorList = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -161,7 +160,7 @@ export class PurchaseComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        Swal.fire(data.ErrorMessgae, "", "error");
+        Swal.fire(data.ErrorMessgae, '', 'error');
       } else {
         if (data.IsQueryExecuted) {
           let newDT = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -172,17 +171,18 @@ export class PurchaseComponent implements OnInit {
   }
 
   OnItemChange() {
-    if (this.PurchaseModelData.GroupName) {
+    if (this.PurchaseModelData.ItemGroupId) {
       this.Qry =
-        'SELECT * FROM itemmaster WHERE GroupName = ' +
-        this.PurchaseModelData.GroupName;
+        'SELECT * FROM itemmaster WHERE itemgroupId = ' +
+        this.PurchaseModelData.ItemGroupId;
       let data = this.DBService.query(this.Qry);
       setTimeout(() => {
         if (data.IsErrorExists) {
-          Swal.fire(data.ErrorMessgae, "", "error");
+          Swal.fire(data.ErrorMessgae, '', 'error');
         } else {
           if (data.QueryResultData && data.QueryResultData.length > 0) {
             let newData = JSON.parse(JSON.stringify(data.QueryResultData));
+            this.PurchaseModelData.ItemName = newData[0].ItemName;
             this.PurchaseModelData.MainQty = newData[0].StockQty;
             this.PurchaseModelData.DesignNo = newData[0].DesignNo;
             this.PurchaseModelData.AltQty = newData[0].ItemUnitPerRate;
@@ -210,11 +210,12 @@ export class PurchaseComponent implements OnInit {
 
   FillGroupNameList() {
     this.VendorList = [];
-    this.Qry = 'SELECT GroupName As Id, GroupName As Name FROM itemmaster;';
+    this.Qry =
+      'SELECT ItemGroupId As Id, itemGroupName As Name FROM itemgroupmaster;';
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        Swal.fire(data.ErrorMessgae, "", "error");
+        Swal.fire(data.ErrorMessgae, '', 'error');
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
           this.GroupNameList = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -234,43 +235,63 @@ export class PurchaseComponent implements OnInit {
       this.PurchaseModelData.EffectiveDate +
       "'";
     let CheckRecord = this.DBService.query(this.Qry);
-    if (CheckRecord.QueryResultData && CheckRecord.QueryResultData.length > 0) {
-      let table = JSON.parse(JSON.stringify(CheckRecord.QueryResultData));
-      this.PurchaseModelData.PurchaseId = table[0].purchaseId;
-      this.InsertIntoDetail()
-      Swal.fire("Record Added!!", "", 'success');
-    } else {
-      this.Qry = `INSERT INTO purchasesummary(purchasedate, terms, vendorId, series, balance) VALUES(?, ?, ?, ?, ?);`;
-      this.parameters = [
-        this.PurchaseModelData.EffectiveDate,
-        this.PurchaseModelData.Terms,
-        this.PurchaseModelData.VenderId,
-        this.PurchaseModelData.Series,
-        this.PurchaseModelData.Balance,
-      ];
-
-      data = this.DBService.InsertUpdateTables(this.Qry, this.parameters);
-
-      setTimeout(() => {
-        this.PurchaseModelData.PurchaseId = JSON.parse(
-          JSON.stringify(data.QueryResultData)
-        )['insertId'];
-        this.InsertIntoDetail();
-        Swal.fire("Record Added!!", "", 'success');
-        this.GetPurchasedData();
-        this.IsAddSection = !this.IsAddSection;
-      }, 500);
-    }
+    setTimeout(() => {
+      if (CheckRecord.QueryResultData && CheckRecord.QueryResultData.length > 0) {
+        let table = JSON.parse(JSON.stringify(CheckRecord.QueryResultData));
+        this.PurchaseModelData.PurchaseId = table[0].purchaseId;
+        data = this.InsertIntoDetail();
+        setTimeout(() => {
+          if(data.IsErrorExists){
+            Swal.fire(data.ErrorMessgae, "", "error");
+          }
+          else{
+            Swal.fire('Record Added!!', '', 'success');
+          }
+        }, 500);
+      } else {
+        this.Qry = `INSERT INTO purchasesummary(purchasedate, terms, vendorId, series, balance) VALUES(?, ?, ?, ?, ?);`;
+        this.parameters = [
+          this.PurchaseModelData.EffectiveDate,
+          this.PurchaseModelData.Terms,
+          this.PurchaseModelData.VenderId,
+          this.PurchaseModelData.Series,
+          this.PurchaseModelData.Balance,
+        ];
+  
+        data = this.DBService.InsertUpdateTables(this.Qry, this.parameters);
+  
+        setTimeout(() => {
+          if (data.IsErrorExists) {
+            Swal.fire(data.ErrorMessgae);
+          } else {
+            this.PurchaseModelData.PurchaseId = JSON.parse(
+              JSON.stringify(data.QueryResultData)
+            )['insertId'];
+            this.Qry = "";
+            data = this.InsertIntoDetail();
+            setTimeout(() => {
+              if (data.IsErrorExists) {
+                Swal.fire(data.ErrorMessgae);
+              } else {
+                Swal.fire('Record Added!!', '', 'success');
+                this.GetPurchasedData();
+                this.IsAddSection = !this.IsAddSection;
+              }
+            }, 500);
+          }
+        }, 500);
+      }
+    }, 500);
   }
 
-  InsertIntoDetail(): boolean {
+  InsertIntoDetail(): DBServiceModel {
     let data: DBServiceModel = new DBServiceModel();
     if (this.PurchaseArrModel && this.PurchaseArrModel.length > 0) {
       for (let i = 0; i < this.PurchaseArrModel.length; i++) {
         this.Qry = `INSERT INTO PurchaseDetail(purchaseId, itemId, Batch, MainQty, altqty, free, per, basicqty, discount, discountamt, taxamt, netvalue) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
         this.parameters = [
           this.PurchaseModelData.PurchaseId,
-          this.PurchaseArrModel[i].GroupName,
+          this.PurchaseArrModel[i].ItemGroupId,
           this.PurchaseArrModel[i].Batch,
           this.PurchaseArrModel[i].MainQty,
           this.PurchaseArrModel[i].AltQty,
@@ -284,14 +305,13 @@ export class PurchaseComponent implements OnInit {
         ];
         data = this.DBService.InsertUpdateTables(this.Qry, this.parameters);
         if (data.IsErrorExists) {
-          Swal.fire("Error: " + data.ErrorMessgae, "", 'error');
+          Swal.fire('Error: ' + data.ErrorMessgae, '', 'error');
           break;
         }
       }
-      setTimeout(() => {}, 500);
-      return data.IsQueryExecuted;
+      return data;
     } else {
-      return false;
+      return data;
     }
   }
 }

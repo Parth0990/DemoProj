@@ -1,45 +1,63 @@
 <div class="m-3 card shadow-lg">
-    <div class="card-header"> 
-      <div class="row fs-5">
-        <div class="col-md-10 mt-2">
-          <span *ngIf="IsAddSection">Add New Vendor</span>
-          <span *ngIf="!IsAddSection">Vendor Master</span>
-        </div>
-        <div class="col-md-2 text-end">
-          <button class="btn btn-outline-primary" (click)="AddBtnClick(IsAddSection ? 'back' : 'add')">
-            <span *ngIf="IsAddSection">Back</span>
-            <span *ngIf="!IsAddSection">New</span>
-          </button>
-        </div>
+  <div class="card-header">
+    <div class="row fs-5">
+      <div class="col-md-10 mt-2">
+        <span *ngIf="IsAddSection">Add New Vendor</span>
+        <span *ngIf="!IsAddSection">Vendor Master</span>
+      </div>
+      <div class="col-md-2 text-end">
+        <button class="btn btn-outline-primary" (click)="AddBtnClick()">
+          <span *ngIf="IsAddSection">Back</span>
+          <span *ngIf="!IsAddSection">New</span>
+        </button>
       </div>
     </div>
-    <div class="card-body">
-      <div class="mx-3 my-2">
-        <ng-template [ngIf]="!IsAddSection">
-          <div>
-            <mat-table #table [dataSource]="dataSource">
-              <ng-container matColumnDef="vendorname">
-                <mat-header-cell *matHeaderCellDef>Vendor Name</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.vendorname}}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="contactpersonname">
-                <mat-header-cell *matHeaderCellDef>Contact Person Name</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.contactpersonname}}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="mobileno">
-                <mat-header-cell *matHeaderCellDef>Mobile No</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.mobileno}}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="Action">
-                <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-                <mat-cell *matCellDef="let item">
-                <button class="btn btn-outline-danger" (click)="DeleteVendorData(item)">Delete</button>
-                <button class="btn btn-outline-info mx-3" (click)="EditVendorData(item)">Edit</button>
-                </mat-cell>
-              </ng-container>
-              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-              <mat-row *matRowDef="let row;columns:displayedColumns;"></mat-row>
-            </mat-table>
+  </div>
+  <div class="card-body">
+    <div class="mx-3 my-2">
+      <ng-template
+        [ngIf]="!IsAddSection && dataSource && dataSource.data.length > 0"
+      >
+        <div>
+          <mat-table #table [dataSource]="dataSource">
+            <ng-container matColumnDef="vendorname">
+              <mat-header-cell *matHeaderCellDef>Vendor Name</mat-header-cell>
+              <mat-cell *matCellDef="let item">{{ item.vendorname }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="contactpersonname">
+              <mat-header-cell *matHeaderCellDef
+                >Contact Person Name</mat-header-cell
+              >
+              <mat-cell *matCellDef="let item">{{
+                item.contactpersonname
+              }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="mobileno">
+              <mat-header-cell *matHeaderCellDef>Mobile No</mat-header-cell>
+              <mat-cell *matCellDef="let item">{{ item.mobileno }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="Action">
+              <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+              <mat-cell *matCellDef="let item">
+                <button
+                  class="btn btn-outline-info"
+                  (click)="CrudPanel(item, 'Edit')"
+                >
+                  Edit
+                </button>
+                <button
+                  class="btn btn-outline-danger mx-3"
+                  (click)="CrudPanel(item, 'Delete')"
+                >
+                  Delete
+                </button>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row
+              *matHeaderRowDef="displayedColumns"
+            ></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          </mat-table>
         </div>
       </ng-template>
       <ng-template [ngIf]="IsAddSection">
@@ -51,7 +69,8 @@
                   type="text"
                   class="form-control"
                   id="floatingInput"
-                  placeholder="Vendor Name" [(ngModel)]="vendorMasModel.vendorname"
+                  placeholder="Vendor Name"
+                  [(ngModel)]="vendorMasModel.vendorname"
                 />
                 <label for="floatingInput">Vendor Name</label>
               </div>
@@ -62,7 +81,8 @@
                   type="text"
                   class="form-control"
                   id="floatingInput"
-                  placeholder="Contact Person Name" [(ngModel)]="vendorMasModel.contactpersonname"
+                  placeholder="Contact Person Name"
+                  [(ngModel)]="vendorMasModel.contactpersonname"
                 />
                 <label for="floatingInput">Contact Person Name</label>
               </div>
@@ -73,7 +93,8 @@
                   type="text"
                   class="form-control"
                   id="floatingInput"
-                  placeholder="Mobile No." [(ngModel)]="vendorMasModel.mobileno"
+                  placeholder="Mobile No."
+                  [(ngModel)]="vendorMasModel.mobileno"
                 />
                 <label for="floatingInput">Mobile No.</label>
               </div>
@@ -86,7 +107,8 @@
                   type="text"
                   class="form-control"
                   id="floatingInput"
-                  placeholder="Email" [(ngModel)]="vendorMasModel.email"
+                  placeholder="Email"
+                  [(ngModel)]="vendorMasModel.email"
                 />
                 <label for="floatingInput">Email</label>
               </div>
@@ -97,7 +119,8 @@
                   type="text"
                   class="form-control"
                   id="floatingInput"
-                  placeholder="Address" [(ngModel)]="vendorMasModel.address"
+                  placeholder="Address"
+                  [(ngModel)]="vendorMasModel.address"
                 />
                 <label for="floatingInput">Address</label>
               </div>
@@ -105,21 +128,37 @@
             <div class="col-md-3">
               <div class="form-floating mb-3">
                 <select
-                  class="form-select" [(ngModel)]="vendorMasModel.locationid"
+                  class="form-select"
+                  [(ngModel)]="vendorMasModel.locationid"
                   id="floatingSelect"
                   aria-label="Floating label select example"
-                  (change)='onOptionsSelected($event)'>
+                  (change)="onOptionsSelected($event)"
+                >
                   <option></option>
-                  <ng-container *ngIf="this.CityStateDropDown && this.CityStateDropDown.length > 0">
-                    <option *ngFor="let item of CityStateDropDown" [value]="item['locationid']">{{item['locationname']}}</option>
+                  <ng-container
+                    *ngIf="
+                      this.CityStateDropDown &&
+                      this.CityStateDropDown.length > 0
+                    "
+                  >
+                    <option
+                      *ngFor="let item of CityStateDropDown"
+                      [value]="item['locationid']"
+                    >
+                      {{ item["locationname"] }}
+                    </option>
                   </ng-container>
                 </select>
                 <label for="floatingSelect">Location</label>
               </div>
             </div>
             <div class="col-md-1 mt-2">
-              <i class="bi bi-plus-circle fs-3 text-success" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" 
-              (click)="OpenDialog()"></i>
+              <i
+                class="bi bi-plus-circle fs-3 text-success"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModalCenter"
+                (click)="OpenDialog()"
+              ></i>
               <i class="bi bi-pencil-square mx-3 fs-3 text-primary"></i>
             </div>
           </div>
@@ -127,10 +166,12 @@
             <div class="col-md-4">
               <div class="form-floating mb-3">
                 <input
-                  type="text" readonly="true"
+                  type="text"
+                  readonly="true"
                   class="form-control"
                   id="floatingInput"
-                  placeholder="City" [(ngModel)]="vendorMasModel.cityname"
+                  placeholder="City"
+                  [(ngModel)]="vendorMasModel.cityname"
                 />
                 <label for="floatingInput">City</label>
               </div>
@@ -138,10 +179,12 @@
             <div class="col-md-4">
               <div class="form-floating mb-3">
                 <input
-                  type="text" readonly="true"
+                  type="text"
+                  readonly="true"
                   class="form-control"
                   id="floatingInput"
-                  placeholder="State" [(ngModel)]="vendorMasModel.statename"
+                  placeholder="State"
+                  [(ngModel)]="vendorMasModel.statename"
                 />
                 <label for="floatingInput">State</label>
               </div>
@@ -152,7 +195,8 @@
                   type="text"
                   class="form-control"
                   id="floatingInput"
-                  placeholder="Pin Code" [(ngModel)]="vendorMasModel.pincode"
+                  placeholder="Pin Code"
+                  [(ngModel)]="vendorMasModel.pincode"
                 />
                 <label for="floatingInput">Pin Code</label>
               </div>
@@ -165,7 +209,8 @@
                   type="text"
                   class="form-control"
                   id="floatingInput"
-                  placeholder="Account No." [(ngModel)]="vendorMasModel.accountno"
+                  placeholder="Account No."
+                  [(ngModel)]="vendorMasModel.accountno"
                 />
                 <label for="floatingInput">Account No.</label>
               </div>
@@ -176,7 +221,8 @@
                   type="text"
                   class="form-control"
                   id="floatingInput"
-                  placeholder="GST No." [(ngModel)]="vendorMasModel.gstno"
+                  placeholder="GST No."
+                  [(ngModel)]="vendorMasModel.gstno"
                 />
                 <label for="floatingInput">GST No.</label>
               </div>
@@ -187,71 +233,87 @@
                   type="text"
                   class="form-control"
                   id="floatingInput"
-                  placeholder="Opening Balance" [(ngModel)]="vendorMasModel.openingbal"
+                  placeholder="Opening Balance"
+                  [(ngModel)]="vendorMasModel.openingbal"
                 />
                 <label for="floatingInput">Opening Balance</label>
               </div>
             </div>
             <div class="col-md-1">
               <div class="form-floating mb-3">
-                <select class="form-select" id="floatingSelect" [(ngModel)]="vendorMasModel.openingbalmode">
-                      <option></option>
-                      <option value="1">DR</option>
-                      <option value="2">CR</option>
-                    </select>
-                    <label for="floatingSelect">Payment</label>
+                <select
+                  class="form-select"
+                  id="floatingSelect"
+                  [(ngModel)]="vendorMasModel.openingbalmode"
+                >
+                  <option></option>
+                  <option value="1">DR</option>
+                  <option value="2">CR</option>
+                </select>
+                <label for="floatingSelect">Payment</label>
               </div>
             </div>
           </div>
-      </div>
-    </ng-template>
-
-      </div>
-    </div>
-    <div class="card-footer">
-        <div class="text-end">
-            <button class="btn btn-primary" style="width: 10%;" (click)="save()" *ngIf="!IsEditSection && IsAddSection">Save</button>
-            <button class="btn btn-primary" style="width: 10%;" (click)="Update()" *ngIf="IsEditSection && IsAddSection">Update</button>
         </div>
+      </ng-template>
     </div>
+  </div>
+  <div class="card-footer">
+    <div class="text-end">
+      <button class="btn btn-primary" style="width: 10%" (click)="save()">
+        Save
+      </button>
+    </div>
+  </div>
 </div>
 
-
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter" aria-hidden="true">
+<div
+  class="modal fade"
+  id="exampleModalCenter"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenter"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header bg-info text-white fw-bold">
-        <h5 class="modal-title fs-4 " id="exampleModalLongTitle">Add New Location</h5>
+        <h5 class="modal-title fs-4" id="exampleModalLongTitle">
+          Add New Location
+        </h5>
       </div>
       <div class="modal-body">
         <div class="row">
           <div class="col-md-4">
             <div class="form-floating mb-3">
               <input
-                type="text" readonly="true"
+                type="text"
+                readonly="true"
                 class="form-control"
                 id="floatingInput"
-                placeholder="Location" [(ngModel)]="LocationName"
+                placeholder="Location"
+                [(ngModel)]="LocationName"
               />
               <label for="floatingInput">Location</label>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-floating mb-3">
-            <select class="form-select"
-            id="PartyName" name="PartyName">
-            <option value="0"></option>
-            <option *ngFor="let item of CityList" [value]="item['Id']">
-              {{ item["Name"] }}
-            </option>
-          </select>
+              <select class="form-select" id="PartyName" name="PartyName">
+                <option value="0"></option>
+                <option *ngFor="let item of CityList" [value]="item['Id']">
+                  {{ item["Name"] }}
+                </option>
+              </select>
               <label for="floatingSelect">City</label>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
         <button type="button" class="btn btn-primary">Save</button>
       </div>
     </div>
