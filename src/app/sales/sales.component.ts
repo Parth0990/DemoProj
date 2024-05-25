@@ -58,7 +58,8 @@ export class SalesComponent implements OnInit {
   ItemDataSource: SalesModel[] = [];
   SalesDataSource: [] = [];
   IsAddSection: boolean = false;
-  OperationType: string = '';
+  OperationType: string = "";
+  
   displayedColumns = [
     'DesignNo',
     'StockQty',
@@ -101,7 +102,9 @@ export class SalesComponent implements OnInit {
   CrudPanel(element: any, Action: string = '') {
     this.SalesModelData = Object.assign({}, element);
     this.SalesArrModel = [];
-    this.SalesArrModel.push(JSON.parse(JSON.stringify(this.SalesModelData)));
+    this.SalesArrModel.push(
+      JSON.parse(JSON.stringify(this.SalesModelData))
+    );
     if (this.SalesArrModel && this.SalesArrModel.length > 0) {
       this.ItemDataSource = JSON.parse(JSON.stringify(this.SalesArrModel));
       this.SalesModelData.TotalAmt += this.SalesModelData.NetValue;
