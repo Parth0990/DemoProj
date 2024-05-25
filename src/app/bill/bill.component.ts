@@ -30,17 +30,67 @@ export class BillComponent implements OnInit{
   data: any;
   SplitAfter:number=15;
   MatProductDataSource:any[] = [];
+  colm: any[] = [];
   WithRatecolumns = ["WithRate"];
   columns = ["WithOutRate"];
   Summarycolumns = ["Thick","ShortName","Qty"];
   ProductDataSource = [{
     ProductName: ""
   }];
+  GeneratedHTMLText: string = "";
 
   constructor(private DBService: DBService) {}
   ngOnInit(): void {
     this.FillCustomerList();
   }
+
+  createTableFromArray(arr: []) {
+    let tableHTML = '<table border="1" class="table table-bordered">';
+    let currentGroup = '';
+
+    arr.forEach(item => {
+        if (item["ItemGroupName"] !== currentGroup) {
+            if (currentGroup !== '') {
+                tableHTML += '</tr>';
+            }
+            tableHTML += `<tr class="w-25"><th colspan="2">${item["ItemGroupName"]}</th></tr>`;
+            currentGroup = item["ItemGroupName"];
+        }
+        tableHTML += `<tr><td>${this.IsKhacha ? item["WithRate"] : item["WithOutRate"]}</td></tr>`;
+    });
+
+    tableHTML += '</table>';
+    return tableHTML;
+    // let tableHTML = '<table border="1">';
+    // let headerCount = 0;
+
+    // arr.forEach(item => {
+    //     if (headerCount === 0) {
+    //         tableHTML += '<tr>';
+    //     }
+    //     tableHTML += `<td>${item["Itemgroupname"]}</td>`;
+    //     tableHTML += `<td>${this.IsKhacha ? item["WithRate"] : item["WithOutRate"]}</td>`;
+    //     headerCount++;
+
+    //     if (headerCount === 4) {
+    //         tableHTML += '</tr>';
+    //         headerCount = 0;
+    //     }
+    // });
+
+    // if (headerCount > 0) {
+    //     // If there are remaining headers in the last row, close the row
+    //     // with empty cells to maintain the table structure
+    //     const remainingCells = 4 - headerCount;
+    //     for (let i = 0; i < remainingCells; i++) {
+    //         tableHTML += '<td></td><td></td>';
+    //     }
+    //     tableHTML += '</tr>';
+    // }
+
+    // tableHTML += '</table>';
+    // return tableHTML;
+}
 
   FillCustomerList() {
     this.CustomerList = [];
@@ -60,11 +110,14 @@ export class BillComponent implements OnInit{
   OnCustomerChange(){
     if (!!this.CustomerId && this.CustomerId > 0 && this.currentDate != ""){
       this.CustomerName = (this.CustomerList.find((i) => i['Id'] == this.CustomerId)?.Name);
-      this.Qry = `Select concat(IM.Designno,':',SD.SalesQty) AS WithOutRate,concat(IM.Designno,':',SD.SalesQty,':',SD.Price) AS WithRate
+      this.Qry = `Select IG.ItemGroupName, IG.ItemGroupId,
+                  concat(IM.Designno,':',SD.SalesQty) AS WithOutRate,
+                  concat(IM.Designno,':',SD.SalesQty,':',SD.Price) AS WithRate
                   FROM SalesSummary SS
                   INNER JOIN CustomerMaster CM ON CM.CustomerId = SS.CustomerId
                   INNER JOIN SalesDetail SD ON SD.SalesId = SS.SalesId
                   INNER JOIN ItemMaster IM ON IM.ItemId = SD.ItemId
+                  INNER JOIN ItemGroupMaster IG ON IG.ItemGroupId = IM.ItemGroupId
                   WHERE CM.CustomerId = `+this.CustomerId+` AND SS.SalesDate = '`+ this.currentDate +`+'
                   ORDER BY IM.Thickness,IM.Designno;`;
                   let data = this.DBService.query(this.Qry);
@@ -74,6 +127,11 @@ export class BillComponent implements OnInit{
                     } else {
                       if (data.QueryResultData && data.QueryResultData.length > 0) {
                         this.DataSource = JSON.parse(JSON.stringify(data.QueryResultData));
+                        this.colm = Object.keys(this.DataSource);
+                        this.GeneratedHTMLText = this.createTableFromArray(this.DataSource);
+                        console.log(this.GeneratedHTMLText);
+                        console.log(this.colm);
+                        console.log(this.DataSource);
                       }
                     }
                   }, 500);

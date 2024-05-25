@@ -39,7 +39,7 @@ export class DropDownProp {
 export class CustomerComponent implements OnInit {
   customerMasModel: CustomerDataModel = new CustomerDataModel();
   dataSource = new MatTableDataSource<CustomerDataModel>([]);
-  displayedColumns: string[] = ['customername', 'mobileno', 'action'];
+  displayedColumns: string[] = ['customername', 'mobileno', 'Action'];
   CityStateDropDown = [];
   CityList: DropDownProp[] = [];
   Qry: any = '';
@@ -168,7 +168,7 @@ export class CustomerComponent implements OnInit {
                   LocationId = ?, CityId = ?, StateId = ?, Pincode = ?, AccountNo = ?, Gstno = ?, OpeningBal = ?
                   Openingbalmode = ? WHERE customerId = ` +
         this.customerMasModel.customerid;
-    } else if (this.OperationType.toLowerCase() == 'Add') {
+    } else {
       this.Qry = `insert Into customermaster(customername,mobileno,phoneno,email,address,locationid,cityid,stateid,pincode,accountno,gstno,openingbal,openingbalmode)
       Values(?,?,?,?,?,?,?,?,?,?,?,?,?);`;
     }

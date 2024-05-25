@@ -19,7 +19,7 @@ export class SalesModel {
   BillNo: string = '';
   DueDate: Date = new Date();
   StockQty: number = 0;
-  SaleQty: number = 0;
+  SalesQty: number = 0;
   AltQty: number = 0;
   Price: number = 0;
   Per: string = '';
@@ -58,6 +58,7 @@ export class SalesComponent implements OnInit {
   ItemDataSource: SalesModel[] = [];
   SalesDataSource: [] = [];
   IsAddSection: boolean = false;
+  OperationType: string = "";
   displayedColumns = [
     'DesignNo',
     'StockQty',
@@ -78,7 +79,8 @@ export class SalesComponent implements OnInit {
     'ItemName',
     'SalesDate',
     'Terms',
-    'TotalAmt'
+    'TotalAmt',
+    'Action'
   ];
 
   constructor(private DBService: DBService) {}
@@ -96,8 +98,62 @@ export class SalesComponent implements OnInit {
     }
   }
 
+  CrudPanel(element: any, Action: string = '') {
+    this.SalesModelData = Object.assign({}, element);
+    this.SalesArrModel = [];
+    this.SalesArrModel.push(
+      JSON.parse(JSON.stringify(this.SalesModelData))
+    );
+    if (this.SalesArrModel && this.SalesArrModel.length > 0) {
+      this.ItemDataSource = JSON.parse(JSON.stringify(this.SalesArrModel));
+      this.SalesModelData.TotalAmt += this.SalesModelData.NetValue;
+    } else {
+      this.ItemDataSource = [];
+    }
+    if (Action.toLowerCase() == 'edit') {
+      this.IsAddSection = true;
+      this.OperationType = Action;
+    }
+    if (Action.toLowerCase() == 'delete') {
+      Swal.fire({
+        title: 'Are you sure?',
+        icon: 'info',
+        confirmButtonText: 'Yes',
+        showCloseButton: true,
+      }).then((result) => {
+        if (result['isConfirmed']) {
+          this.Qry =
+            'Delete From SalesDetail WHERE SalesId = ' + this.SalesModelData.SalesId;
+          let data = this.DBService.query(this.Qry);
+          setTimeout(() => {
+            if (data.IsErrorExists) {
+              Swal.fire(data.ErrorMessgae, '', 'error');
+            } else {
+              this.Qry = "DELETE FROM SalesSummary WHERE SalesId = " + this.SalesModelData.SalesId;
+              data = this.DBService.query(this.Qry);
+              setTimeout(() => {
+                if(data.IsErrorExists){
+                  Swal.fire(data.ErrorMessgae, "", "error");
+                }
+                else{
+                  Swal.fire('Deleted!!', '', 'success');
+                  this.GetPurchasedData();
+                  this.IsAddSection = false;
+                }
+              }, 500);
+            }
+          }, 500);
+          console.log(data);
+        }
+      });
+      this.OperationType = Action;
+    }
+  }
+
   GetPurchasedData() {
-    this.Qry = `SELECT SS.SalesId,CM.CustomerId,CM.CustomerName,IM.ItemId,IM.ItemName,SS.SalesDate,SS.Terms,SS.TotalAmt  
+    this.Qry = `SELECT SS.SalesId,CM.CustomerId,CM.CustomerName,IM.ItemId,IM.ItemName,Cast(SS.SalesDate as char(11)) As SalesDate,SS.Terms,SS.TotalAmt
+    , IM.StockQty, IM.DesignNo, SS.Balance, SD.SalesQty, SD.AltQty, SD.Price, SD.Per, SD.BasicAmt
+    , SD.DisPercentage As Discount, SD.DiscountAmt, SD.TaxPercentage AS TaxSlab, SD.TaxAmount As TaxAmt, SD.NetValue 
     FROM SalesSummary SS
     INNER JOIN CustomerMaster CM ON CM.CustomerId = SS.CustomerId
     INNER JOIN SalesDetail SD ON SD.SalesId = SS.SalesId
@@ -135,7 +191,7 @@ export class SalesComponent implements OnInit {
     this.SalesModelData.ItemId = 0;
     this.SalesModelData.DesignNo = 0;
     this.SalesModelData.StockQty = 0;
-    this.SalesModelData.SaleQty = 0;
+    this.SalesModelData.SalesQty = 0;
     this.SalesModelData.AltQty = 0;
     this.SalesModelData.Price = 0;
     this.SalesModelData.Per = "";
@@ -201,8 +257,8 @@ export class SalesComponent implements OnInit {
   OnInputChange() {
     this.SalesModelData.BasicAmt =
       this.SalesModelData.Per == 'SQ FT'
-        ? this.SalesModelData.Price * this.SalesModelData.AltQty * this.SalesModelData.SaleQty
-        : this.SalesModelData.Price * this.SalesModelData.SaleQty;
+        ? this.SalesModelData.Price * this.SalesModelData.AltQty * this.SalesModelData.SalesQty
+        : this.SalesModelData.Price * this.SalesModelData.SalesQty;
         this.SalesModelData.NetValue = this.SalesModelData.BasicAmt;
   }
 
@@ -281,7 +337,7 @@ export class SalesComponent implements OnInit {
           this.SalesModelData.SalesId,
           this.SalesArrModel[i].ItemId,
           this.SalesArrModel[i].StockQty,
-          this.SalesArrModel[i].SaleQty,
+          this.SalesArrModel[i].SalesQty,
           this.SalesArrModel[i].AltQty,
           this.SalesArrModel[i].Price,
           this.SalesArrModel[i].Per,
