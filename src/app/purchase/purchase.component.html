@@ -10,7 +10,7 @@
         <div class="form-floating">
           <input
             type="date"
-            [(ngModel)]="PurchaseModelData.EffectiveDate"
+            [(ngModel)]="PurchaseModelData.PurchaseDate"
             class="form-control"
           />
           <label for="floatingInput">Date</label>
@@ -56,7 +56,7 @@
         <div class="form-floating mb-3">
           <select
             class="form-select"
-            [(ngModel)]="PurchaseModelData.VenderId"
+            [(ngModel)]="PurchaseModelData.VendorId"
             id="PartyName"
             (ngModelChange)="OnVendorChange()"
             name="PartyName"
@@ -333,56 +333,58 @@
         <mat-table [dataSource]="PurchaseDataSource" class="table table-bordered">
           <ng-container matColumnDef="VendorName">
             <mat-header-cell *matHeaderCellDef>Vendor Name</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.vendorname }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{ element.VendorName }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="ItemName">
             <mat-header-cell *matHeaderCellDef>Item Name</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.itemname }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{ element.ItemName }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="PurchaseDate">
             <mat-header-cell *matHeaderCellDef>Purchase Date</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.purchasedate | date: "dd/MMM/yyyy" }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{ element.PurchaseDate | date: "dd/MMM/yyyy" }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="MainQty">
             <mat-header-cell *matHeaderCellDef>Main Qty.</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.mainqty }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{ element.MainQty }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="AltQty">
             <mat-header-cell *matHeaderCellDef>Alt Qty.</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.altqty }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{ element.AltQty }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="Per">
             <mat-header-cell *matHeaderCellDef>Per</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.per }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{ element.Per }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="BasicAmt">
             <mat-header-cell *matHeaderCellDef>Basic Amount</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.basicqty }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{ element.BasicQty }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="Discount">
             <mat-header-cell *matHeaderCellDef>Discount [%]</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.discount }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{ element.Discount }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="DiscountAmt">
             <mat-header-cell *matHeaderCellDef>Discount Amount</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.discountamt }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{ element.DiscountAmt }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="TaxAmt">
             <mat-header-cell *matHeaderCellDef>Tax Amount</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.taxamt }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{ element.TaxAmt }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="NetValue">
             <mat-header-cell *matHeaderCellDef>Net Value</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.netvalue }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{ element.NetValue }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Action">
+            <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell *matCellDef="let item">
+              <button class="border-0" (click)="CrudPanel(item, 'Edit')"><i class="bi bi-pencil-square fs-4 text-primary"></i></button>
+              <button class="border-0" (click)="CrudPanel(item, 'Delete')"><i class="bi bi-trash fs-4 text-danger"></i></button>
+            </mat-cell>
           </ng-container>
           <mat-header-row *matHeaderRowDef="colums"></mat-header-row>
           <mat-row *matRowDef="let row; columns: colums"></mat-row>
         </mat-table>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <button class="btn btn-outline-primary" (click)="PrintScreen()">Print</button>
       </div>
     </div>
   </div>
