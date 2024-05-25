@@ -19,7 +19,7 @@
         [ngIf]="!IsAddSection && dataSource && dataSource.data.length > 0"
       >
         <div>
-          <mat-table #table [dataSource]="dataSource">
+          <mat-table class="table table-responsive-lg" [dataSource]="dataSource">
             <ng-container matColumnDef="vendorname">
               <mat-header-cell *matHeaderCellDef>Vendor Name</mat-header-cell>
               <mat-cell *matCellDef="let item">{{ item.vendorname }}</mat-cell>
@@ -39,18 +39,8 @@
             <ng-container matColumnDef="Action">
               <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
               <mat-cell *matCellDef="let item">
-                <button
-                  class="btn btn-outline-info"
-                  (click)="CrudPanel(item, 'Edit')"
-                >
-                  Edit
-                </button>
-                <button
-                  class="btn btn-outline-danger mx-3"
-                  (click)="CrudPanel(item, 'Delete')"
-                >
-                  Delete
-                </button>
+                <button class="border-0" (click)="CrudPanel(item, 'Edit')"><i class="bi bi-pencil-square fs-4 text-primary"></i></button>
+                <button class="border-0" (click)="CrudPanel(item, 'Delete')"><i class="bi bi-trash fs-4 text-danger"></i></button>
               </mat-cell>
             </ng-container>
             <mat-header-row
@@ -258,7 +248,7 @@
       </ng-template>
     </div>
   </div>
-  <div class="card-footer">
+  <div class="card-footer" *ngIf="IsAddSection">
     <div class="text-end">
       <button class="btn btn-primary" style="width: 10%" (click)="save()">
         Save

@@ -113,7 +113,7 @@
         <div class="form-floating mb-3">
           <input type="number" min="0" max="10"
             class="form-control" id="SaleQty" name="SaleQty"
-            [(ngModel)]="SalesModelData.SaleQty"
+            [(ngModel)]="SalesModelData.SalesQty"
             placeholder="SaleQty"/>
           <label for="floatingInput">Sale Qty</label>
         </div>
@@ -206,7 +206,7 @@
           </ng-container>
           <ng-container matColumnDef="SaleQty">
             <mat-header-cell *matHeaderCellDef>Sale Qty</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.SaleQty }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{ element.SalesQty }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="AltQty">
             <mat-header-cell *matHeaderCellDef>Alt Qty</mat-header-cell>
@@ -261,7 +261,7 @@
   <div class="card-body" *ngIf="!IsAddSection && SalesDataSource && SalesDataSource.length > 0">
     <div class="row mt-2">
       <div class="col-md-12">
-        <mat-table [dataSource]="SalesDataSource" class="table table-bordered">
+        <mat-table [dataSource]="SalesDataSource" class="table table-responsive-lg" >
           <ng-container matColumnDef="CustomerName">
             <mat-header-cell *matHeaderCellDef>Customer Name</mat-header-cell>
             <mat-cell *matCellDef="let element">{{ element.CustomerName }}</mat-cell>
@@ -281,6 +281,13 @@
           <ng-container matColumnDef="TotalAmt">
             <mat-header-cell *matHeaderCellDef>Total Amt</mat-header-cell>
             <mat-cell *matCellDef="let element">{{ element.TotalAmt }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Action">
+            <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell *matCellDef="let item">
+              <button class="border-0" (click)="CrudPanel(item, 'Edit')"><i class="bi bi-pencil-square fs-4 text-primary"></i></button>
+              <button class="border-0" (click)="CrudPanel(item, 'Delete')"><i class="bi bi-trash fs-4 text-danger"></i></button>
+            </mat-cell>
           </ng-container>
           <mat-header-row *matHeaderRowDef="colums"></mat-header-row>
           <mat-row *matRowDef="let row; columns: colums"></mat-row>

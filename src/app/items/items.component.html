@@ -140,12 +140,19 @@
           <mat-header-cell *matHeaderCellDef>Stock Qty</mat-header-cell>
           <mat-cell *matCellDef="let element">{{ element.StockQty }}</mat-cell>
         </ng-container>
+        <ng-container matColumnDef="Action">
+          <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+          <mat-cell *matCellDef="let item">
+            <button class="border-0" (click)="CrudPanel(item, 'Edit')"><i class="bi bi-pencil-square fs-4 text-primary"></i></button>
+            <button class="border-0" (click)="CrudPanel(item, 'Delete')"><i class="bi bi-trash fs-4 text-danger"></i></button>
+          </mat-cell>
+        </ng-container>
         <mat-header-row *matHeaderRowDef="colums"></mat-header-row>
         <mat-row *matRowDef="let row; columns: colums"></mat-row>
       </mat-table>
     </ng-template>
   </div>
-  <div class="card-footer">
+  <div class="card-footer" *ngIf="IsAddSection">
     <div class="text-end">
       <button class="btn btn-primary" style="width: 10%" (click)="OnItemSave()">Save</button>
     </div>

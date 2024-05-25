@@ -16,8 +16,7 @@
       <div class="card-body">
         <div class="mx-3 my-2">
           <ng-template [ngIf]="!IsAddSection">
-            <div>
-              <mat-table #table [dataSource]="this.dataSource">
+              <mat-table class="table table-responsive-lg" [dataSource]="this.dataSource">
                 <ng-container matColumnDef="customername">
                   <mat-header-cell *matHeaderCellDef>Customer Name</mat-header-cell>
                   <mat-cell *matCellDef="let item">{{item.customername}}</mat-cell>
@@ -26,17 +25,16 @@
                   <mat-header-cell *matHeaderCellDef>Mobile No</mat-header-cell>
                   <mat-cell *matCellDef="let item">{{item.mobileno}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="action">
-                  <mat-header-cell *matHeaderCellDef>action</mat-header-cell>
+                <ng-container matColumnDef="Action">
+                  <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
                   <mat-cell *matCellDef="let item">
-                    <button class="btn btn-outline-info" (click)="CrudPanel(item, 'Edit')">Edit</button>
-                    <button class="btn btn-outline-danger mx-3" (click)="CrudPanel(item, 'Delete')">Delete</button>
+                    <button class="border-0" (click)="CrudPanel(item, 'Edit')"><i class="bi bi-pencil-square fs-4 text-primary"></i></button>
+                    <button class="border-0" (click)="CrudPanel(item, 'Delete')"><i class="bi bi-trash fs-4 text-danger"></i></button>
                   </mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row;columns:displayedColumns;"></mat-row>
               </mat-table>
-          </div>
           </ng-template>
           <ng-template [ngIf]="IsAddSection">
             <div class="row">

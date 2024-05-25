@@ -67,7 +67,106 @@
       <p>M/S : <span>{{CustomerName}}</span></p>
     </div>
   </div>
-  <div class="row" *ngIf="this.DataSource && this.DataSource.length > 0">
+<!--   
+  <div class="col-md-12">
+    <table class="table table-bordered">
+      <th class="">Product</th>
+      <th class="">Product</th>
+      <th class="">Product</th>
+      <th class="">Product</th>
+      <th class="">Product</th>
+      <tr>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+      </tr>
+      <tr>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+      </tr>
+      <tr>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+      </tr>
+      <tr>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+      </tr>
+      <tr>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+      </tr>
+      <tr>
+        <th class="">Product</th>
+      <th class="">Product</th>
+      <th class="">Product</th>
+      <th class="">Product</th>
+      <th class="">Product</th>
+      </tr>
+      <tr>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+      </tr>
+      <tr>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+      </tr>
+      <tr>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+      </tr>
+      <tr>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+      </tr>
+      <tr>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+        <td>1.</td>
+      </tr>
+    </table>
+  </div> -->
+  <div class="mx-3" [innerHTML]="GeneratedHTMLText" *ngIf="DataSource && DataSource.length > 0">
+    <!-- <table class="table table-bordered">
+      <div *ngFor="let item of DataSource; let i = index">
+      <tr>
+      <td class="w-25">{{item["ItemGroupName"]}}</td>
+      </tr>
+      <tr>
+        <td>{{IsKhacha ? item["WithRate"] : item["WithOutRate"]}}</td>
+      </tr>
+    </div>
+    </table> -->
+  </div>
+  <!-- <div class="row" *ngIf="this.DataSource && this.DataSource.length > 0">
     <mat-table #table [dataSource]="this.DataSource">
       <ng-container matColumnDef="WithOutRate">
         <mat-header-cell *matHeaderCellDef>Product</mat-header-cell>
@@ -76,23 +175,25 @@
       <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
       <mat-row *matRowDef="let row;columns:columns;"></mat-row>
     </mat-table>
-  </div>
-  <div class="row col-md-3" *ngIf="this.SummaryDataSource && this.SummaryDataSource.length > 0">
-    <mat-table #table [dataSource]="this.SummaryDataSource">
-      <ng-container matColumnDef="Thick">
-        <mat-header-cell *matHeaderCellDef>Thick</mat-header-cell>
-        <mat-cell *matCellDef="let item">{{item.Thick}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="ShortName">
-        <mat-header-cell *matHeaderCellDef>ShortName</mat-header-cell>
-        <mat-cell *matCellDef="let item">{{item.ShortName}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="Qty">
-        <mat-header-cell *matHeaderCellDef>Qty</mat-header-cell>
-        <mat-cell *matCellDef="let item">{{item.Qty}}</mat-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="Summarycolumns"></mat-header-row>
-      <mat-row *matRowDef="let row;columns:Summarycolumns;"></mat-row>
-    </mat-table>
+  </div> -->
+  <div class="mx-3" *ngIf="this.SummaryDataSource && this.SummaryDataSource.length > 0">
+    <div class="row col-md-3">
+      <mat-table #table [dataSource]="this.SummaryDataSource">
+        <ng-container matColumnDef="Thick">
+          <mat-header-cell *matHeaderCellDef>Thick</mat-header-cell>
+          <mat-cell *matCellDef="let item">{{item.Thick}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="ShortName">
+          <mat-header-cell *matHeaderCellDef>ShortName</mat-header-cell>
+          <mat-cell *matCellDef="let item">{{item.ShortName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Qty">
+          <mat-header-cell *matHeaderCellDef>Qty</mat-header-cell>
+          <mat-cell *matCellDef="let item">{{item.Qty}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="Summarycolumns"></mat-header-row>
+        <mat-row *matRowDef="let row;columns:Summarycolumns;"></mat-row>
+      </mat-table>
+    </div>
   </div>
 </div>
