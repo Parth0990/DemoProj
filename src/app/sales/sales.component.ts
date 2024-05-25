@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { DBService, DBServiceModel } from '../app.dbservice';
 import Swal from 'sweetalert2';
 
@@ -30,7 +30,7 @@ export class SalesModel {
   TaxAmt: number = 0;
   NetValue: number = 0;
   TotalAmt: number = 0;
-  IsKhacha:boolean = false;
+  IsKhacha: boolean = false;
 }
 
 export class DropDownProp {
@@ -41,15 +41,15 @@ export class DropDownProp {
 @Component({
   selector: 'app-sales',
   standalone: true,
-  imports: [CommonModule,MatTableModule,MatSlideToggleModule,FormsModule],
+  imports: [CommonModule, MatTableModule, MatSlideToggleModule, FormsModule],
   templateUrl: './sales.component.html',
-  styleUrl: './sales.component.css'
+  styleUrl: './sales.component.css',
 })
 export class SalesComponent implements OnInit {
-  currentDateTime:any = new Date();
+  currentDateTime: any = new Date();
   Qry: string = '';
-  CustomerData:any = '';
-  ItemData:any = '';
+  CustomerData: any = '';
+  ItemData: any = '';
   parameters: any;
   CustomerList = [];
   ItemList = [];
@@ -59,6 +59,7 @@ export class SalesComponent implements OnInit {
   SalesDataSource: [] = [];
   IsAddSection: boolean = false;
   OperationType: string = "";
+  
   displayedColumns = [
     'DesignNo',
     'StockQty',
@@ -80,7 +81,7 @@ export class SalesComponent implements OnInit {
     'SalesDate',
     'Terms',
     'TotalAmt',
-    'Action'
+    'Action',
   ];
 
   constructor(private DBService: DBService) {}
@@ -123,19 +124,21 @@ export class SalesComponent implements OnInit {
       }).then((result) => {
         if (result['isConfirmed']) {
           this.Qry =
-            'Delete From SalesDetail WHERE SalesId = ' + this.SalesModelData.SalesId;
+            'Delete From SalesDetail WHERE SalesId = ' +
+            this.SalesModelData.SalesId;
           let data = this.DBService.query(this.Qry);
           setTimeout(() => {
             if (data.IsErrorExists) {
               Swal.fire(data.ErrorMessgae, '', 'error');
             } else {
-              this.Qry = "DELETE FROM SalesSummary WHERE SalesId = " + this.SalesModelData.SalesId;
+              this.Qry =
+                'DELETE FROM SalesSummary WHERE SalesId = ' +
+                this.SalesModelData.SalesId;
               data = this.DBService.query(this.Qry);
               setTimeout(() => {
-                if(data.IsErrorExists){
-                  Swal.fire(data.ErrorMessgae, "", "error");
-                }
-                else{
+                if (data.IsErrorExists) {
+                  Swal.fire(data.ErrorMessgae, '', 'error');
+                } else {
                   Swal.fire('Deleted!!', '', 'success');
                   this.GetPurchasedData();
                   this.IsAddSection = false;
@@ -161,7 +164,7 @@ export class SalesComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        Swal.fire(data.ErrorMessgae, "", "error");
+        Swal.fire(data.ErrorMessgae, '', 'error');
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
           this.SalesDataSource = JSON.parse(
@@ -175,9 +178,7 @@ export class SalesComponent implements OnInit {
 
   OnAddBtnClick() {
     this.ItemDataSource = [];
-    this.SalesArrModel.push(
-      JSON.parse(JSON.stringify(this.SalesModelData))
-    );
+    this.SalesArrModel.push(JSON.parse(JSON.stringify(this.SalesModelData)));
     if (this.SalesArrModel && this.SalesArrModel.length > 0) {
       this.ItemDataSource = JSON.parse(JSON.stringify(this.SalesArrModel));
       this.SalesModelData.TotalAmt += this.SalesModelData.NetValue;
@@ -187,20 +188,20 @@ export class SalesComponent implements OnInit {
     }
   }
 
-  ClearItemData(){
+  ClearItemData() {
     this.SalesModelData.ItemId = 0;
     this.SalesModelData.DesignNo = 0;
     this.SalesModelData.StockQty = 0;
     this.SalesModelData.SalesQty = 0;
     this.SalesModelData.AltQty = 0;
     this.SalesModelData.Price = 0;
-    this.SalesModelData.Per = "";
+    this.SalesModelData.Per = '';
     this.SalesModelData.BasicAmt = 0;
     this.SalesModelData.Discount = 0;
     this.SalesModelData.DiscountAmt = 0;
     this.SalesModelData.TaxSlab = 0;
     this.SalesModelData.TaxAmt = 0;
-    this.SalesModelData.NetValue = 0;  
+    this.SalesModelData.NetValue = 0;
   }
 
   FillCustomerList() {
@@ -209,7 +210,7 @@ export class SalesComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        Swal.fire(data.ErrorMessgae, "", "error");
+        Swal.fire(data.ErrorMessgae, '', 'error');
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
           this.CustomerList = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -219,8 +220,10 @@ export class SalesComponent implements OnInit {
   }
 
   OnCustomerChange() {
-    if(this.SalesModelData.CustomerId){
-      let a = this.CustomerList.find((i) => i['customerid'] == this.SalesModelData.CustomerId);
+    if (this.SalesModelData.CustomerId) {
+      let a = this.CustomerList.find(
+        (i) => i['customerid'] == this.SalesModelData.CustomerId
+      );
       this.CustomerData = a;
       this.SalesModelData.Balance = this.CustomerData.openingbal;
     }
@@ -228,17 +231,16 @@ export class SalesComponent implements OnInit {
 
   OnItemChange() {
     if (this.SalesModelData.ItemId) {
-      let a = this.ItemList.find((i) => i['ItemId'] == this.SalesModelData.ItemId);
-
-
+      let a = this.ItemList.find(
+        (i) => i['ItemId'] == this.SalesModelData.ItemId
+      );
 
       this.Qry =
-        'SELECT * FROM itemmaster WHERE ItemId = ' +
-        this.SalesModelData.ItemId;
+        'SELECT * FROM itemmaster WHERE ItemId = ' + this.SalesModelData.ItemId;
       let data = this.DBService.query(this.Qry);
       setTimeout(() => {
         if (data.IsErrorExists) {
-          Swal.fire(data.ErrorMessgae, "", "error");
+          Swal.fire(data.ErrorMessgae, '', 'error');
         } else {
           if (data.QueryResultData && data.QueryResultData.length > 0) {
             let newData = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -257,9 +259,11 @@ export class SalesComponent implements OnInit {
   OnInputChange() {
     this.SalesModelData.BasicAmt =
       this.SalesModelData.Per == 'SQ FT'
-        ? this.SalesModelData.Price * this.SalesModelData.AltQty * this.SalesModelData.SalesQty
+        ? this.SalesModelData.Price *
+          this.SalesModelData.AltQty *
+          this.SalesModelData.SalesQty
         : this.SalesModelData.Price * this.SalesModelData.SalesQty;
-        this.SalesModelData.NetValue = this.SalesModelData.BasicAmt;
+    this.SalesModelData.NetValue = this.SalesModelData.BasicAmt;
   }
 
   ClearData() {
@@ -274,7 +278,7 @@ export class SalesComponent implements OnInit {
     let data = this.DBService.query(this.Qry);
     setTimeout(() => {
       if (data.IsErrorExists) {
-        Swal.fire(data.ErrorMessgae, "", "error");
+        Swal.fire(data.ErrorMessgae, '', 'error');
       } else {
         if (data.QueryResultData && data.QueryResultData.length > 0) {
           this.ItemList = JSON.parse(JSON.stringify(data.QueryResultData));
@@ -286,22 +290,11 @@ export class SalesComponent implements OnInit {
   AddNewRecord() {
     let data: DBServiceModel = new DBServiceModel();
 
-    this.Qry =
-      `SELECT * FROM SalesSummary WHERE CustomerId = ` +
-      this.SalesModelData.CustomerId +
-      " AND SalesDatex = '" +
-      this.SalesModelData.SalesDate +
-      "'";
-    let CheckRecord = this.DBService.query(this.Qry);
-    if (CheckRecord.QueryResultData && CheckRecord.QueryResultData.length > 0) {
-      let table = JSON.parse(JSON.stringify(CheckRecord.QueryResultData));
-      this.SalesModelData.SalesId = table[0].SalesId;
-      if (this.InsertIntoDetail()) {
-        alert('Record Added!!!');
-      }
-    } else {
-      this.Qry = `INSERT INTO SalesSummary(CustomerId,SalesDate,Terms,Balance,TotalAmt,IsKhacha,CreatedDate,ModifiedDate)
-       VALUES(?, ?, ?, ?, ?,?,?,?);`;
+    if (this.OperationType.toLowerCase() == 'edit') {
+      this.Qry =
+        `UPDATE SalesSummary SET CustomerId = ?, SalesDate = ?, Terms = ?, Balance = ?, TotalAmt = ?, IsKhacha = ?
+                  , ModifiedDate = ? WHERE SalesId = ` +
+        this.SalesModelData.SalesId;
       this.parameters = [
         this.SalesModelData.CustomerId,
         this.SalesModelData.SalesDate,
@@ -310,54 +303,137 @@ export class SalesComponent implements OnInit {
         this.SalesModelData.TotalAmt,
         this.SalesModelData.IsKhacha,
         this.currentDateTime,
-        this.currentDateTime
       ];
 
-      data = this.DBService.InsertUpdateTables(this.Qry, this.parameters);
-
+      let data = this.DBService.InsertUpdateTables(this.Qry, this.parameters);
       setTimeout(() => {
-        this.SalesModelData.SalesId = JSON.parse(
-          JSON.stringify(data.QueryResultData)
-        )['insertId'];
-        this.InsertIntoDetail();
-        this.GetPurchasedData();
-        this.IsAddSection = !this.IsAddSection;
+        if (data.IsErrorExists) {
+          Swal.fire(data.ErrorMessgae, '', 'error');
+        } else {
+          data = this.InsertUpdateIntoDetail();
+          setTimeout(() => {
+            if (data.ErrorMessgae) {
+              Swal.fire(data.ErrorMessgae, '', 'error');
+            } else {
+              Swal.fire('Record Updated!!!', '', 'success');
+              this.IsAddSection = false;
+              this.GetPurchasedData();
+            }
+          }, 500);
+        }
       }, 500);
+    } else {
+      this.Qry =
+        `SELECT * FROM SalesSummary WHERE CustomerId = ` +
+        this.SalesModelData.CustomerId +
+        " AND SalesDate = '" +
+        this.SalesModelData.SalesDate +
+        "'";
+      let CheckRecord = this.DBService.query(this.Qry);
+      if (
+        CheckRecord.QueryResultData &&
+        CheckRecord.QueryResultData.length > 0
+      ) {
+        let table = JSON.parse(JSON.stringify(CheckRecord.QueryResultData));
+        this.SalesModelData.SalesId = table[0].SalesId;
+        data = this.InsertUpdateIntoDetail();
+        setTimeout(() => {
+          if (data.IsErrorExists) {
+            Swal.fire(data.ErrorMessgae, '', 'error');
+          } else {
+            Swal.fire('Record Added!!!', '', 'success');
+          }
+        }, 500);
+      } else {
+        this.Qry = `INSERT INTO SalesSummary(CustomerId,SalesDate,Terms,Balance,TotalAmt,IsKhacha,CreatedDate,ModifiedDate)
+       VALUES(?, ?, ?, ?, ?,?,?,?);`;
+        this.parameters = [
+          this.SalesModelData.CustomerId,
+          this.SalesModelData.SalesDate,
+          this.SalesModelData.Terms,
+          this.SalesModelData.Balance,
+          this.SalesModelData.TotalAmt,
+          this.SalesModelData.IsKhacha,
+          this.currentDateTime,
+          this.currentDateTime,
+        ];
+
+        data = this.DBService.InsertUpdateTables(this.Qry, this.parameters);
+
+        setTimeout(() => {
+          this.SalesModelData.SalesId = JSON.parse(
+            JSON.stringify(data.QueryResultData)
+          )['insertId'];
+          data = this.InsertUpdateIntoDetail();
+          setTimeout(() => {
+            if (data.IsErrorExists) {
+              Swal.fire(data.ErrorMessgae, '', 'error');
+            } else {
+              Swal.fire('Record Added!!!', '', 'success');
+              this.GetPurchasedData();
+              this.IsAddSection = !this.IsAddSection;
+            }
+          }, 500);
+        }, 500);
+      }
     }
   }
 
-  InsertIntoDetail(): boolean {
+  InsertUpdateIntoDetail(): DBServiceModel {
     console.log(this.SalesModelData.SalesId);
     let data: DBServiceModel = new DBServiceModel();
     if (this.SalesArrModel && this.SalesArrModel.length > 0) {
       for (let i = 0; i < this.SalesArrModel.length; i++) {
-        this.Qry = `INSERT INTO SalesDetail(SalesId, ItemId, StockQty, SalesQty, AltQty, Price, Per, BasicAmt, DisPercentage,
-          DiscountAmt, TaxPercentage, TaxAmount, NetValue) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`;
-        this.parameters = [
-          this.SalesModelData.SalesId,
-          this.SalesArrModel[i].ItemId,
-          this.SalesArrModel[i].StockQty,
-          this.SalesArrModel[i].SalesQty,
-          this.SalesArrModel[i].AltQty,
-          this.SalesArrModel[i].Price,
-          this.SalesArrModel[i].Per,
-          this.SalesArrModel[i].BasicAmt,
-          this.SalesArrModel[i].Discount,
-          this.SalesArrModel[i].DiscountAmt,
-          this.SalesArrModel[i].TaxSlab,
-          this.SalesArrModel[i].TaxAmt,
-          this.SalesArrModel[i].NetValue,
-        ];
+        if (this.OperationType.toLowerCase() == 'edit') {
+          this.Qry =
+            `UPDATE SalesDetail SET ItemId = ?, StockQty = ?, SalesQty = ?, AltQty = ?, Price = ?, Per = ?, 
+             BasicAmt = ?, DisPercentage = ?, DiscountAmt = ?, TaxPercentage = ?, TaxAmount = ?, 
+             NetValue = ? WHERE SalesId = ` + this.SalesModelData.SalesId;
+
+          this.parameters = [
+            this.SalesArrModel[i].ItemId,
+            this.SalesArrModel[i].StockQty,
+            this.SalesArrModel[i].SalesQty,
+            this.SalesArrModel[i].AltQty,
+            this.SalesArrModel[i].Price,
+            this.SalesArrModel[i].Per,
+            this.SalesArrModel[i].BasicAmt,
+            this.SalesArrModel[i].Discount,
+            this.SalesArrModel[i].DiscountAmt,
+            this.SalesArrModel[i].TaxSlab,
+            this.SalesArrModel[i].TaxAmt,
+            this.SalesArrModel[i].NetValue,
+          ];
+        } else {
+          this.Qry = `INSERT INTO SalesDetail(SalesId, ItemId, StockQty, SalesQty, AltQty, Price, Per, BasicAmt, DisPercentage,
+            DiscountAmt, TaxPercentage, TaxAmount, NetValue) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`;
+          this.parameters = [
+            this.SalesModelData.SalesId,
+            this.SalesArrModel[i].ItemId,
+            this.SalesArrModel[i].StockQty,
+            this.SalesArrModel[i].SalesQty,
+            this.SalesArrModel[i].AltQty,
+            this.SalesArrModel[i].Price,
+            this.SalesArrModel[i].Per,
+            this.SalesArrModel[i].BasicAmt,
+            this.SalesArrModel[i].Discount,
+            this.SalesArrModel[i].DiscountAmt,
+            this.SalesArrModel[i].TaxSlab,
+            this.SalesArrModel[i].TaxAmt,
+            this.SalesArrModel[i].NetValue,
+          ];
+        }
+
         data = this.DBService.InsertUpdateTables(this.Qry, this.parameters);
         if (data.IsErrorExists) {
-          Swal.fire(data.ErrorMessgae, "", "error");
+          Swal.fire(data.ErrorMessgae, '', 'error');
           break;
         }
       }
       setTimeout(() => {}, 500);
-      return data.IsQueryExecuted;
+      return data;
     } else {
-      return false;
+      return data;
     }
   }
 }
